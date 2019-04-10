@@ -1,23 +1,20 @@
 'use strict'
 
+
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
-    //var config = new Map();
-
-    var searchableContents = new Map;
-
-    const LS = window.localStorage;
-    const googleId = LS.getItem('googleId');
     
-    console.log( googleId );
-
-    LS.setItem("googleId", "hallo")
-
-
-
+    function update( name ) {
+        const LS = window.localStorage;
+        const _elem_ = document.getElementById(name)
+        _elem_.value = LS.getItem(name) == null ? "not def." : ""
+        LS.setitem(name, _elem_.value );
+    }
+    
+ 
+       
     function main() {
-    	RestoreData();
-
+        const _your_image_  = document.getElementById("your-image");
         _your_image_.setAttribute("src", gravatar("michael.erdmann@snafu.de",120));
         
         //fetchData("http://api.football-data.org/v2/competitions/PL/matches/?matchday=22");
@@ -30,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
  
         _your_image_.setAttribute("src", gravatar("michael.erdmann@snafu.de",120));
 
+        ProcessAndRender();
     }
 
     main();
@@ -38,17 +36,20 @@ document.addEventListener('DOMContentLoaded', function () {
  // grvaar accss baes on the on th dpcumentst founr at: http://en.gravatar.com/site/implement/
  function gravatar(email, option) {
 	// using md5() from here: http://www.myersdaily.org/joseph/javascript/md5-text.html
-
     return "https://www.gravatar.com/avatar/"+ md5(email.toLowerCase().trim()) + "?s=" + option;
 }
 
+    function ProcessAndRender(data) {
+        const pageTitle = document.title;
     
-      function ProcessAndRender(data) {
-        const books = data["books"]
+        switch( pageTitle) {
+            case "Settings":
+                    update("google-Id");
+                    update("Avatar Id");
+                    break;
 
-        books.forEach(function (item) {
-            Show("card", item);
-        })
+        }
+
     }
 
     // Needs to be refctored since it hides intention bhind a boolean,
