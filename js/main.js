@@ -4,71 +4,83 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
 
+    // grvatar access to pictures based on http://en.gravatar.com/site/implement/ and using md5.
+    function gravatar(email, option) {
+        const result = "https://www.gravatar.com/avatar/" + md5(email.toLowerCase().trim()) + "?s=" + option;
+        console.log(result);
+        return result;
+    }
+    //
+    // This function is expetd to update the settings page nd to palce th 
+    // input fields.
+    //
     function update(name) {
         const LS = window.localStorage;
         const _elem_ = document.getElementById(name)
-        _elem_.value = LS.getItem(name) == null ? "not def." : ""
-        LS.setitem(name, _elem_.value);
+        if (_elem_.value != "") {
+            _elem.value = LS.getItem(name);
+            console.log(LS.getItem(name));
+        }
+        else
+            LS.setItem(name, _elem_.value)
     }
 
-
-
+    //
+    // This is the main driver performin initial request of data
+    //
     function main() {
-       
-        fetchData("https://api.football-data.org/v2/competitions");
-        const _your_image_ = document.getElementById("your-image");
-        const _btn_search_ = document.getElementById("btn-search");
-        const _search_text_ = document.getElementById("search_text");
+        const pageTitle = document.title;
 
-        _btn_search_.addEventListener("click", function () {
-            console.log("serach for something" + _search_text_.value);
-        })
-        _your_image_.setAttribute("src", gravatar("michael.erdmann@snafu.de", 120));
+        switch (pageTitle) {
+            case "Settings":
+                break;
+            case "Sports Salad":
+                fetchData("https://api.football-data.org/v2/competitions/CL/matches");
 
-        ProcessAndRender();
+                const _your_image_ = document.getElementById("your-image");
+                const _btn_search_ = document.getElementById("btn-search");
+                const _search_text_ = document.getElementById("search_text");
+
+                _btn_search_.addEventListener("click", function () {
+                    console.log("serach for something" + _search_text_.value);
+                })
+
+                // when logged in  in show your face on the screen.
+                _your_image_.setAttribute("src", gravatar("michael.erdmann@snafu.de", 120));
+        }
     }
 
-    main();
-
-
-    // grvaar accss baes on the on th dpcumentst founr at: http://en.gravatar.com/site/implement/
-    function gravatar(email, option) {
-        // using md5() from here: http://www.myersdaily.org/joseph/javascript/md5-text.html
-        const result = "https://www.gravatar.com/avatar/" + md5(email.toLowerCase().trim()) + "?s=" + option;
-        console.log( result );
-        return result;
-    }
-
+    // do the per page rendering of the received data
     function ProcessAndRender(data) {
         const pageTitle = document.title;
 
         switch (pageTitle) {
             case "Settings":
                 update("google-Id");
-                update("Avatar Id");
+                update("Avatar-Id");
                 break;
 
         }
 
     }
 
-    // Needs to be refctored since it hides intention bhind a boolean,
+
     function fetchData(url) {
         fetch(url, {
                 headers: {
-                    'Content-Type': 'application/json',
-                    "X-Auth-Key": "bddc8f1b00114b5683e99c5eea4268ac"
+                    "X-Auth-Token": "bddc8f1b00114b5683e99c5eea4268ac"
                 },
-                mode: "cors"
+                //mode: "cors"
             })
             .then(function (response) {
                 document.body.style.cursor = 'wait'
+                console.log(response)
                 return response.json()
             })
             .then(function (myJson) {
                 //console.log(myJson);
                 document.body.style.cursor = 'auto'
-
+                console.log(myJson)
                 ProcessAndRender(myJson)
             })
             .catch(err => console.log(err))
