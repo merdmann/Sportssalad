@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function update(name) {   
         console.log("update("+name+")");
         const LS = window.localStorage;
-        const _elem_ = document.getElementById(name)
+        let _elem_ = document.getElementById(name)
         if (_elem_.value != "") {
-            _elem.value = LS.getItem(name);
+            _elem_.value = LS.getItem(name);
             console.log(LS.getItem(name));
             
         }
@@ -36,10 +36,14 @@ document.addEventListener('DOMContentLoaded', function () {
     function main() {
         const pageTitle = document.title;
 
-        console.log("main");
+        console.log("main :"+ pageTitle);
         
         switch (pageTitle) {
             case "Settings":
+                update("google-id");
+                update("avatar-id");
+                let _btn_test_it_ = document.getElementById('btn-test-it');
+                _btn_test_it_.addEventListener("click", function (){console.log("click") })
                 break;
             case "Sports Salad":
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
@@ -60,11 +64,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Default" + pageTitle );
         }
     }
+    
 
     // do the per page rendering of the received data
     function ProcessAndRender(data) {
-        console.log("ProcessAndRender nbr of data items: " + data.lenth +" for " + pageTitle+ ")");
-        const pageTitle = document.title;
+        let pageTitle = document.title;
+
+        console.log("ProcessAndRender nbr of data items: " + data.length +" for " + pageTitle+ ")");
+     
 
         switch (pageTitle) {
             case "Settings":
@@ -73,11 +80,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
 
         }
-
     }
 
 
+    // fetches data 
     function fetchData(url) {
+        console.log("fetching" + url);
         fetch(url, {
                 headers: {
                     "X-Auth-Token": "bddc8f1b00114b5683e99c5eea4268ac"
@@ -90,11 +98,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json()
             })
             .then(function (myJson) {
-                //console.log(myJson);
                 document.body.style.cursor = 'auto'
                 console.log(myJson)
                 ProcessAndRender(myJson)
             })
             .catch(err => console.log(err))
     }
+    
+    main();
 }) // DOMContentLoaded handler
+
