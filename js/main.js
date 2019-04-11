@@ -11,18 +11,23 @@ document.addEventListener('DOMContentLoaded', function () {
         return result;
     }
     //
-    // This function is expetd to update the settings page nd to palce th 
+    // This function is expetd to update the settings page nd to palce th
     // input fields.
     //
-    function update(name) {
+    function update(name) {   
+        console.log("update("+name+")");
         const LS = window.localStorage;
         const _elem_ = document.getElementById(name)
         if (_elem_.value != "") {
             _elem.value = LS.getItem(name);
             console.log(LS.getItem(name));
+            
         }
-        else
+        else {
+            console.log("value=" + _elem_.value)
             LS.setItem(name, _elem_.value)
+            console.log(LS.getItem(name));
+        }
     }
 
     //
@@ -31,6 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function main() {
         const pageTitle = document.title;
 
+        console.log("main");
+        
         switch (pageTitle) {
             case "Settings":
                 break;
@@ -47,17 +54,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // when logged in  in show your face on the screen.
                 _your_image_.setAttribute("src", gravatar("michael.erdmann@snafu.de", 120));
+                break;
+                
+            default:
+                console.log("Default" + pageTitle );
         }
     }
 
     // do the per page rendering of the received data
     function ProcessAndRender(data) {
+        console.log("ProcessAndRender nbr of data items: " + data.lenth +" for " + pageTitle+ ")");
         const pageTitle = document.title;
 
         switch (pageTitle) {
             case "Settings":
-                update("google-Id");
-                update("Avatar-Id");
+                update("google-id");
+                update("avatar-id");
                 break;
 
         }
