@@ -1,4 +1,32 @@
 
-@media only screen and (min-width: 360px) and (max-width: 767px) (orientation: landscape)  {
+@media only screen and (min-width: 740) or (orientation: landscape) or (device-height:360)  {
+    .your-image {
+     	display:none;
+    }
+
+    .search-landscape {
+	width: "60%";
+    }   
+    
+  .hide {
+    display: none;    
+  }
+}
+
+@media only screen and (min-width: 360)  {
+    .your-image {
+        width: "10%";
+    }
+
+    .search-landscape {
+	width: "20%";
+    }
+
+
+  .last-col {
+    display: none ;
+  } 
+	
+}
 
 
