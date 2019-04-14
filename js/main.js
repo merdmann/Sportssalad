@@ -72,7 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
             let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name;
             if (line.includes(filter)) {
 
-                td.appendChild(document.createTextNode(' ' + item.utcDate))
+                let date = item.utcDate.split('T')
+                td.appendChild(document.createTextNode(' ' + date[0]+"-"+date[1] ))
 
                 // home team
                 td = tr.insertCell(-1)
