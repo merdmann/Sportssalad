@@ -1,37 +1,29 @@
-/*
- * this is he landscape mode 
- */ 
-@media only screen and (max-width: 800px) and (min-height: 400px) ) {
-    .search-landscape {
-        width: "100%"
-    }
-    
-    
-    
-}
 
 /*
- * nerly potrait mode
+ * nearly portrait slim 
  */
-
-@media only screen and (max-width:350px) and (min-height: 400px) {
- 
-    .search-landscape {
-        width: "20%";
-    }
-}
-
-
-/*
- * nearly portrat slim 
- */
-@media only screen (min-width: 150px) and (min-height: 400px) {
+@media only screen and (min-width: 100px) and (min-height:640px) {
     .last-col {
         display: none;
     }
-    
+}
+/*
+ * nearly potrait mode
+ */
+
+@media only screen and (max-width:350px) and (min-height: 640px) {
     .search-landscape {
         display: none;
     }
-    
 }
+
+/*
+ * this is he landscape mode 
+ */ 
+@media only screen and (max-width:800px) and (min-height: 640px) ) {
+    .hide {
+        display: initial;
+    }
+}
+
+
