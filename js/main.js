@@ -53,37 +53,56 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Default" + pageTitle);
         }
     }
-
-
+    
+    /*
+     * calculae the winner team 
+     */
+    function TheWinnerIs(item) {    
+        if( item.score.winner != "DRAW" ) {
+        let winner = item.score.winner == "AWAY_TEAM" ?            
+            item.awayTeam.name : item.homeTeam.name;
+                    
+            return winner;
+        }
+    }
+        
     // this function will take a list of names sorted accoring to engagment of the person.
     function FillTable(root, data, filter) {
         let shownLines=0;
         let tbdy = document.getElementById(root);
         if (tbdy == null) {
-            consoe.log(root + "not found.....")
+            consoe.log(root + " not found.")
             return;
         }
    
+        
+        console.log(data);
         // for all data
         data.forEach(function (item) {
             var tr = tbdy.insertRow(-1)
             var td = tr.insertCell(0)
 
-            let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name;
+            // this implemnt the filter for a givem Teams or anyhing else
+            let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name + "!" + TheWinnerIs(item);
             if (line.includes(filter)) {
 
                 let date = item.utcDate.split('T')
                 td.appendChild(document.createTextNode(' ' + date[0]+"-"+date[1] ))
+                td.classList.add("last-col");
 
                 // home team
                 td = tr.insertCell(-1)
-                td.appendChild(document.createTextNode(' ' + item.homeTeam.name))
+                td.appendChild(document.createTextNode(' ' + item.homeTeam.name));
 
-                // 
                 td = tr.insertCell(-1)
-                td.appendChild(document.createTextNode(' ' + item.awayTeam.name))
+                td.appendChild(document.createTextNode(' ' + item.awayTeam.name));
+                         
+                if( item.score.winner != "DRAW" ) {
+                    let winner = TheWinnerIs(item);
+                    td = tr.insertCell(-1)
+                    td.appendChild(document.createTextNode( winner ))
+                }
                 td.classList.add("last-col");
-
                 tbdy.appendChild(tr);
                 
                 if (shownLines++ % 18 == 0) {}
