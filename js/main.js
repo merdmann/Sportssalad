@@ -1,13 +1,15 @@
 'use strict'
-
-
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
 
+    let Teams = new Map()
     let searchText = "";
     const _your_image_ = document.getElementById("your-image");
     const _search_text_ = document.getElementById("search-text");
-
+    const MS = 1000  /* 1000 ms == 1 seconds */
+    const HR  = 60    /* 60 min /  hr */
+    const SEC = 60   /* 60 sec / min */
+    
 
     // grvatar access to pictures based on http://en.gravatar.com/site/implement/ and using md5.
     function gravatar(email, option) {
@@ -22,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function update(name) {
         const LS = window.localStorage;
         console.log("update(" + name + ")");
-        let _elem_ = document.getElementById(name)
+        let _elem_ = document.getElementById(name);
         if (_elem_.value !== "" && _elem !== null) {
-            _elem_.value = LS.getItem(name);
+            _elem_.value = LS.setItem(name, _elem_.value);
             console.log(LS.getItem(name));
         } else {
             console.log("value=" + _elem_.value)
@@ -44,10 +46,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
         switch (pageTitle) {
             case "Settings":
+                update("your-city");
+                update("google-id");
+                update("avatar-id");
+                update("your-city");
+                
                 break;
+            case "flash":
+                fetchData("https://api.football-data.org/v2/competitions/2018/teams");
+                
             case "Sports Salad": // the main page
                 _your_image_.setAttribute("src", gravatar("michael.erdmann@snafu.de", 240));
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
+                break;
 
             default:
                 console.log("Default" + pageTitle);
@@ -74,20 +85,19 @@ document.addEventListener('DOMContentLoaded', function () {
             consoe.log(root + " not found.")
             return;
         }
-   
-        
-        console.log(data);
-        // for all data
+                // for all data
         data.forEach(function (item) {
             var tr = tbdy.insertRow(-1)
             var td = tr.insertCell(0)
 
+            console.log(item);
+           
             // this implemnt the filter for a givem Teams or anyhing else
             let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name + "!" + TheWinnerIs(item);
-            if (line.includes(filter)) {
+            if (line.includes(filter) || item.state == "SCHEDULED") {
 
                 let date = item.utcDate.split('T')
-                td.appendChild(document.createTextNode(' ' + date[0]+"-"+date[1] ))
+                td.appendChild(document.createTextNode(' ' + item.startDate))
                 td.classList.add("last-col");
 
                 // home team
@@ -105,8 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 td.classList.add("last-col");
                 tbdy.appendChild(tr);
                 
-                if (shownLines++ % 18 == 0) {}
-                
+                if (shownLines++ % 18 == 0) {}    
             }
         }) // end for each
     }
@@ -115,15 +124,24 @@ document.addEventListener('DOMContentLoaded', function () {
     function ProcessAndRender(data) {
         let pageTitle = document.title;
 
-        console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
-
         switch (pageTitle) {
+            case "flash":
+                console.log(data);
+                data.teams.forEach( function(item) {
+                    Teams.set( "id", item.id)
+                    Teams.set( "address", item.address);
+                    Teams.set( "venue", item.venue)
+                })
+                
+                break;
             case "Settings":
                 update("google-id");
                 update("avatar-id");
+                update("your-city");
                 break;
 
             case "Sports Salad":
+                console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
                 _your_image_.setAttribute("src", gravatar("Michael.erdmann@snafu.de"))
                 FillTable("summary-table", data.matches, searchText);
                 
