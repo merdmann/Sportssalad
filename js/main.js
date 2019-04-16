@@ -1,7 +1,6 @@
 'use strict'
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
-
     let Teams = new Map()
     let searchText = "";
     const _your_image_ = document.getElementById("your-image");
@@ -9,8 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const MS = 1000  /* 1000 ms == 1 seconds */
     const HR  = 60    /* 60 min /  hr */
     const SEC = 60   /* 60 sec / min */
-    
-
     // grvatar access to pictures based on http://en.gravatar.com/site/implement/ and using md5.
     function gravatar(email, option) {
         const result = "https://www.gravatar.com/avatar/" + md5(email.toLowerCase().trim()) + "?s=" + option;
@@ -33,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
             LS.setItem(name, _elem_.value);
         }
     }
-
     //
     // This is the main driver performing an initial request of data after the page has been
     // rendered.
@@ -41,30 +37,24 @@ document.addEventListener('DOMContentLoaded', function () {
     function main(data) {
         const pageTitle = document.title;
         const LS = window.localStorage;
-
         console.log("main :" + pageTitle);
-
         switch (pageTitle) {
             case "Settings":
                 update("your-city");
                 update("google-id");
                 update("avatar-id");
                 update("your-city");
-                
                 break;
             case "flash":
                 fetchData("https://api.football-data.org/v2/competitions/2018/teams");
-                
             case "Sports Salad": // the main page
                 _your_image_.setAttribute("src", gravatar("michael.erdmann@snafu.de", 240));
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
                 break;
-
             default:
                 console.log("Default" + pageTitle);
         }
     }
-    
     /*
      * calculae the winner team 
      */
@@ -72,11 +62,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if( item.score.winner != "DRAW" ) {
         let winner = item.score.winner == "AWAY_TEAM" ?            
             item.awayTeam.name : item.homeTeam.name;
-                    
             return winner;
         }
     }
-        
     // this function will take a list of names sorted accoring to engagment of the person.
     function FillTable(root, data, filter) {
         let shownLines=0;
@@ -89,24 +77,18 @@ document.addEventListener('DOMContentLoaded', function () {
         data.forEach(function (item) {
             var tr = tbdy.insertRow(-1)
             var td = tr.insertCell(0)
-
             console.log(item);
-           
             // this implemnt the filter for a givem Teams or anyhing else
             let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name + "!" + TheWinnerIs(item);
             if (line.includes(filter) || item.state == "SCHEDULED") {
-
                 let date = item.utcDate.split('T')
                 td.appendChild(document.createTextNode(' ' + item.startDate))
                 td.classList.add("last-col");
-
                 // home team
                 td = tr.insertCell(-1)
                 td.appendChild(document.createTextNode(' ' + item.homeTeam.name));
-
                 td = tr.insertCell(-1)
                 td.appendChild(document.createTextNode(' ' + item.awayTeam.name));
-                         
                 if( item.score.winner != "DRAW" ) {
                     let winner = TheWinnerIs(item);
                     td = tr.insertCell(-1)
@@ -114,37 +96,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 td.classList.add("last-col");
                 tbdy.appendChild(tr);
-                
+                console.log(Teams[item.homeTeam.id]);
                 if (shownLines++ % 18 == 0) {}    
             }
         }) // end for each
     }
-
     // do the per page rendering of the received data
     function ProcessAndRender(data) {
         let pageTitle = document.title;
-
         switch (pageTitle) {
             case "flash":
                 console.log(data);
-                data.teams.forEach( function(item) {
-                    Teams.set( "id", item.id)
-                    Teams.set( "address", item.address);
-                    Teams.set( "venue", item.venue)
+                 data.teams.forEach( function(item) {
+                    console.log( item.id );
+                    
+                    Teams[ item.id ] = {
+                        venue:   item.venue,
+                        address: item.addess
+                	}
                 })
-                
                 break;
             case "Settings":
                 update("google-id");
                 update("avatar-id");
                 update("your-city");
                 break;
-
             case "Sports Salad":
                 console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
                 _your_image_.setAttribute("src", gravatar("Michael.erdmann@snafu.de"))
                 FillTable("summary-table", data.matches, searchText);
-                
                 _search_text_.addEventListener('keypress', function (e) {
                     console.log( searchText )
                     searchText = _search_text_.value;
@@ -154,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
         }
     }
-
     // fetches data from the  server
     function fetchData(url) {
         console.log("fetching" + url);
@@ -171,11 +150,9 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(function (myJson) {
                 document.body.style.cursor = 'auto'
-
                 ProcessAndRender(myJson)
             })
             .catch(err => console.log(err))
     }
-
     main();
 }) // DOMContentLoaded handler
