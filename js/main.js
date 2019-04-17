@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     td.appendChild(document.createTextNode(winner))
                 }
                 td.classList.add("last-col");
+                td = tr.insertCell(-1);
                 
                 td.appendChild(document.createTextNode("Team Id:" + item.homeTeam.id  ));
              //   Teams.get( item.homeTeam.id )
