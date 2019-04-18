@@ -72,6 +72,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return winner;
         }
     }
+    
+    function TeamLogo( id ){ 
+        let _img_ = document.createElement("img");        
+        _img_.setAttribute("src", getLogoURL( id ))
+        _img_.classList.add("logoImg");
+        
+        return _img_;
+    }
 
 
     // this function will take a list of names sorted accoring to engagment of the person.
@@ -116,10 +124,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 td.classList.add("last-col");
                 td = tr.insertCell(-1);
                 
-                td.appendChild(document.createTextNode(""));
-                let img = document.createElement("img");
-                img.setAttribute("src", getLogoURL( item.homeTeam.id ))
-                td.appendChild(img);
+                td.appendChild( TeamLogo( item.awayTeam.id));
+                td.addendChild( TeamLogo( item.homeTeam.id))
+       
              //   Teams.get( item.homeTeam.id )
                 tbdy.appendChild(tr);
             
