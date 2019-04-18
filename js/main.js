@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 td = tr.insertCell(-1);
                 
                 td.appendChild( TeamLogo( item.awayTeam.id));
-                td.addendChild( TeamLogo( item.homeTeam.id))
+                td.appendChild( TeamLogo( item.homeTeam.id))
        
              //   Teams.get( item.homeTeam.id )
                 tbdy.appendChild(tr);
