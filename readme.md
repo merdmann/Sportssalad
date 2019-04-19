@@ -6,8 +6,8 @@ Chat
 
 #Data Sources
 
-https://www.football-data.org/documentation/api
-https://www.football-data.org/documentation/quickstart/
+https://www.football-data.https://www.football-data.org/documentation/quickstart/
+org/documentation/api
 
 
 #User stories
