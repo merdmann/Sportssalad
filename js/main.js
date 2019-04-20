@@ -151,19 +151,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if ( lastState !== item.status) { 
                     lastState = item.status;
-                    console.log( lastState );
+                    console.log( "insert" + lastState );
                     // paginatiomn will be put if the state is changing
                     /* <li class="page-item"><a class="page-link" href="#">1</a></li>*/
                     const li = document.createElement("li");
                     li.classList.add("page-item");
                     const a = document.createElement("a")
                     console.log(item.status)
-                    
+
                     li.appendChild(a);
                     a.setAttribute("href", lastState);
                     a.classList.add("page-link")
                     a.innerHTML = lastState;
-                    
+
                     td.appendChild(li);
                 }
             }
