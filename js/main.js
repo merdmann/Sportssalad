@@ -34,9 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const LS = window.localStorage;
         console.log("update(" + name + ")");
         let _elem_ = document.getElementById(name);
-        if (_elem_.value !== "" && _elem !== null) {
-            _elem_.value = LS.setItem(name, _elem_.value);
-            console.log(LS.getItem(name));
+        if (_elem_ !== null) {
+            _elem_.value = LS.getItem(name);
+            _elem_.addEventListener('change', function() {
+            	LS.setItem(name,_elem_.value ) });
         } else {
             console.log("value=" + _elem_.value)
             LS.setItem(name, _elem_.value);
@@ -53,8 +54,9 @@ document.addEventListener('DOMContentLoaded', function () {
         switch (pageTitle) {
             case "Settings":
                 console.log(Restore("your-city"))
-                update("google-id");
-                update("avatar-id");
+                update("google-Id");
+                update("your-name");
+                update("gravatar-id");
                 update("your-city");
                 break;
             case "flash":
