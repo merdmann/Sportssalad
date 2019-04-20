@@ -8,11 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const MS = 1000 /* 1000 ms == 1 seconds */
     const HR = 60 /* 60 min /  hr */
     const SEC = 60 /* 60 sec / min */
+    const LS = window.localStorage;
     // grvatar access to pictures based on http://en.gravatar.com/site/implement/ and using md5.
     function gravatar(email, option) {
         const result = "https://www.gravatar.com/avatar/" + md5(email.toLowerCase().trim()) + "?s=" + option;
         console.log(result);
         return result;
+    }
+    
+    function Restore(name) {
+        return LS.getItem(name);
     }
 
 
@@ -47,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("main :" + pageTitle);
         switch (pageTitle) {
             case "Settings":
-                update("your-city");
+                console.log(Restore("your-city"))
                 update("google-id");
                 update("avatar-id");
                 update("your-city");
@@ -90,15 +95,22 @@ document.addEventListener('DOMContentLoaded', function () {
             consoe.log(root + " not found.")
             return;
         }
-        const by_status = function (a, b) {
-          return b.status - a.status
-        }
         
+        const by_status = function (a,b) {
+            if (a.status < b.status)
+                return -1;
+    	    if (a.status > b.status)
+                return 1;
+            return 0;
+        }
+
+        
+        let lastState = null;
         // for all data
         data.sort(by_status).forEach(function (item) {
             var tr = tbdy.insertRow(-1)
             var td = tr.insertCell(0)
-            let lastState = item.status;
+
             console.log(item);
             // this implemnt the filter for a givem Teams or anyhing else
             let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name + "!" + TheWinnerIs(item);
@@ -127,10 +139,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 td.appendChild( TeamLogo( item.awayTeam.id));
                 td.appendChild( TeamLogo( item.homeTeam.id))
        
-             //   Teams.get( item.homeTeam.id )
                 tbdy.appendChild(tr);
             
-                console.log(Teams.get(item.homeTeam.id));
+                console.log( item.status)
+                if(lastState == null) {
+                	lastState = item.status;
+                	return  // continue to next item
+                }
+
                 if ( lastState !== item.status) { 
                     lastState = item.status;
                     console.log( lastState );
@@ -142,11 +158,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log(item.status)
                     
                     li.appendChild(a);
-                    a.setAttribute("href", "#");
-                    
+                    a.setAttribute("href", lastState);
+                    a.classList.add("page-link")
                     a.innerHTML = lastState;
                     
-                    tbdy.appendChild(li);
+                    td.appendChild(li);
                 }
             }
         }) // end for each
