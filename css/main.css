@@ -30,3 +30,25 @@
 	width: 80px;
 	height:80px;
  }
+
+
+.SCHEDULED {
+    background-color: "red";
+}
+
+.FINISHED {
+    baclground-color: "yellow"S;
+}
+
+.gamesTable {
+    background-color: "blue";
+    border: 1px solid black;
+    border: 1px solid black;
+
+}
+
+
+.greeting-text {
+    padding: 30;
+    font-weight: bold;
+}

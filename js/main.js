@@ -9,18 +9,42 @@ document.addEventListener('DOMContentLoaded', function () {
     const HR = 60 /* 60 min /  hr */
     const SEC = 60 /* 60 sec / min */
     const LS = window.localStorage;
+
+
+	function login() {
+  		var provider = new firebase.auth.GoogleAuthProvider();
+
+  	firebase
+    	.auth()
+    	.signInWithPopup(provider)
+    	.then(function(result) {
+      // The signed-in user info.
+      	var user = result.user;
+     	console.log("Login successful!");
+      	console.log(user.displayName);
+      	userName = user.displayName;
+      	console.log(user.email);
+      	userEmail = user.email;
+      	getPosts();
+    	})
+    	.catch(function(error) {
+      	// Handle Errors here.
+      	var errorCode = error.code;
+      	var errorMessage = error.message;
+      	console.log(errorCode, errorMessage);
+    });
+}
+
+
+
+
     // grvatar access to pictures based on http://en.gravatar.com/site/implement/ and using md5.
     function gravatar(email, option) {
-        const result = "https://www.gravatar.com/avatar/" + md5(email.toLowerCase().trim()) + "?s=" + option;
+        const result = "https://www.gravatar.com/avatar/" + md5( email.toLowerCase().trim()) +  "?s=" + option;
         console.log(result);
         return result;
     }
     
-    function Restore(name) {
-        return LS.getItem(name);
-    }
-
-
     function IsVsible(name) {
         let item = document.getElementById(name);
 
@@ -61,9 +85,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
             case "flash":
                 fetchData("https://api.football-data.org/v2/competitions/2018/teams");
-            case "Sports Salad": // the main page
-                _your_image_.setAttribute("src", gravatar("michael.erdmann@snafu.de", 240));
+            case "Sports Salad": // the main page. provide greeting
+                var _span_greeting_ = document.getElementById("span-greeting");
+                _span_greeting_.innerHTML = "Hi" + LS.getItem("your-name");
+
+                _your_image_.setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
+                const _sigin_ = document.getElementById("btn_signin");
+                _sigin_.addEventListener("click", function() {
+                	console.log("***doing login");
+                	login();
+                	console.log("***doing login");
+                })
+
                 break;
             default:
                 console.log("Default" + pageTitle);
@@ -111,36 +145,53 @@ document.addEventListener('DOMContentLoaded', function () {
         // for all data
         data.sort(by_status).forEach(function (item) {
             var tr = tbdy.insertRow(-1)
-            var td = tr.insertCell(0)
+            var td = tr.insertCell(-1);
+            tbdy.classList.add( "gamesTable");
+
+			tr.classList.add(item.status)
 
             console.log(item);
             // this implemnt the filter for a givem Teams or anyhing else
             let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name + "!" + TheWinnerIs(item);
-            if (line.includes(filter) /* || item.status == "SCHEDULED" */) {
-                let date = item.utcDate.split('T')
-                td.appendChild(document.createTextNode(' ' + item.startDate))
-                td.classList.add("last-col");
-                console.log(td.classList);
+            if (line.includes(filter)) {
+                let Days = 0;
+         		if(item.satus == "SCHEDULED") {
+            		const date1 = new Date();
+					const date2 = new Date(item.season.startDate);
+					const diffTime = Math.abs(date2.getTime() - date1.getTime());
+					Days = Math.ceil(diffTime / (MS * SEC * HRS * 24));
+
+					td = tr.insertCell(0);
+					td.classList.add("scheduled")
+					td.appendChild(document.createTextNode(' ' + item.season.startDate + "in " + Days + "days"));
+				} 
+
+                //td.classList.add("last-col");
                 // home team
                 
                 td = tr.insertCell(-1)
-                
-                td.appendChild(document.createTextNode(' ' + item.homeTeam.name + "="+ item.homeTeam.id));
+                td.appendChild( TeamLogo( item.awayTeam.id));
+                td.appendChild(document.createTextNode(' ' + item.homeTeam.name + "="+ item.homeTeam.id + "vs")) ;
                 td = tr.insertCell(-1)
     
                 td.appendChild(document.createTextNode(' ' + item.awayTeam.name + "=" + item.awayTeam.id));
     
-                if (item.score.winner != "DRAW") {
-                    let winner = TheWinnerIs(item);
-                    td = tr.insertCell(-1)
-                    td.appendChild(document.createTextNode(winner))
-                }
+    			if(item.status == "FINISHED") {
+                	if (item.score.winner != "DRAW") {
+                    	let winner = TheWinnerIs(item);
+                    	td = tr.insertCell(-1)
+                    	td.appendChild(document.createTextNode(winner))
+                	}
+            	}
+            	if(item.satus == "SCHEDULED") {
+            		tr.classList.add( "scheduled");
+            	}
                 td.classList.add("last-col");
                 td = tr.insertCell(-1);
                 
-                td.appendChild( TeamLogo( item.awayTeam.id));
+                //td.appendChild( TeamLogo( item.awayTeam.id));
                 td.appendChild( TeamLogo( item.homeTeam.id))
-       
+                
                 tbdy.appendChild(tr);
             
                 console.log( item.status)
@@ -157,6 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const li = document.createElement("li");
                     li.classList.add("page-item");
                     const a = document.createElement("a")
+                    a.setAttribute("name", lastState);
                     console.log(item.status)
 
                     li.appendChild(a);
