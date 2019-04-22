@@ -87,12 +87,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetchData("https://api.football-data.org/v2/competitions/2018/teams");
             case "Sports Salad": // the main page. provide greeting
                 var _span_greeting_ = document.getElementById("span-greeting");
-                _span_greeting_.innerHTML = "Hi" + LS.getItem("your-name");
+                _span_greeting_.innerHTML = "Hi " + LS.getItem("your-name");
 
                 _your_image_.setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
-                const _sigin_ = document.getElementById("btn_signin");
-                _sigin_.addEventListener("click", function() {
+                const _signIn_ = document.getElementById("btn-signIn");
+                _signIn_.addEventListener("click", function() {
                 	console.log("***doing login");
                 	login();
                 	console.log("***doing login");
@@ -114,10 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     
-    function TeamLogo( id ){ 
+    function TeamLogo( id ) { 
         let _img_ = document.createElement("img");        
         _img_.setAttribute("src", getLogoURL( id ))
         _img_.classList.add("logoImg");
+        _img_.setAttribute("alt", id + getLogoURL(id))
         
         return _img_;
     }

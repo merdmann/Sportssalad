@@ -37,7 +37,9 @@
 }
 
 .FINISHED {
-    baclground-color: "yellow"S;
+   /* bacground-color: "yellow";*/
+      background-color: #FAEBD7;
+  color: white;
 }
 
 .gamesTable {
