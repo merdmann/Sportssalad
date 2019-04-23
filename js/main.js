@@ -144,12 +144,17 @@ document.addEventListener('DOMContentLoaded', function () {
         
         let lastState = null;
         // for all data
-        data.sort(by_status).forEach(function (item) {
+        data.sort(by_status).forEach(function (item, index) {
             var tr = tbdy.insertRow(-1)
             var td = tr.insertCell(-1);
             tbdy.classList.add( "gamesTable");
 
-			tr.classList.add(item.status)
+			tr.classList.add(item.status) // handle the click on the game
+            tr.addEventListener("click", function() { let id = this.id.split('-')[1];
+                                                      LS.setItem("listOfInt", JSON.stringify(data[id]));
+                                                          
+                                                    })
+            tr.setAttribute("id", "match-"+index);
 
             console.log(item);
             // this implemnt the filter for a givem Teams or anyhing else
@@ -172,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 td = tr.insertCell(-1)
                 td.appendChild( TeamLogo( item.awayTeam.id));
-                td.appendChild(document.createTextNode(' ' + item.homeTeam.name + "="+ item.homeTeam.id + "vs")) ;
+                td.appendChild(document.createTextNode(' ' + item.homeTeam.name + "="+ item.homeTeam.id + "  vs   ")) ;
                 td = tr.insertCell(-1)
     
                 td.appendChild(document.createTextNode(' ' + item.awayTeam.name + "=" + item.awayTeam.id));
@@ -255,6 +260,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     FillTable("summary-table", data.matches, searchText)
                 });
                 break;
+            case "list of interest":
+                let liofInt= JSON.parse(LS.getitem("listOfInt"));
+                console.log(listOfInt);
+                template = ` `;
+
+
+
         }
     }
     // fetches data from the  server
