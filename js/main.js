@@ -36,8 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
 }
 
 
-
-
     // grvatar access to pictures based on http://en.gravatar.com/site/implement/ and using md5.
     function gravatar(email, option) {
         const result = "https://www.gravatar.com/avatar/" + md5( email.toLowerCase().trim()) +  "?s=" + option;
@@ -97,8 +95,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 	login();
                 	console.log("***doing login");
                 })
-
                 break;
+            case "list of interest":
+                let liOfInt = JSON.parse(LS.getItem("listOfInt"));
+                console.log(liOfInt);
+                let template = ` `;
+                break;
+                
             default:
                 console.log("Default" + pageTitle);
         }
@@ -124,8 +127,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    function HL( id ) {
+        const _row_ = document.getElementById(id);
+        _row_.classList.add( "HL");
+    }
+
     // this function will take a list of names sorted accoring to engagment of the person.
     function FillTable(root, data, filter) {
+        const LS = window.localStorage;
         let shownLines = 0;
         let tbdy = document.getElementById(root);
         if (tbdy == null) {
@@ -145,15 +154,23 @@ document.addEventListener('DOMContentLoaded', function () {
         let lastState = null;
         // for all data
         data.sort(by_status).forEach(function (item, index) {
-            var tr = tbdy.insertRow(-1)
-            var td = tr.insertCell(-1);
+            const tr = tbdy.insertRow(-1)
+            const td = tr.insertCell(-1);
             tbdy.classList.add( "gamesTable");
+            var liOfInt = JSON.parse( LS.getItem("liOfInt") );
+            if( !Array.isArray(liOfInt))
+                liOfInt = [];
 
 			tr.classList.add(item.status) // handle the click on the game
-            tr.addEventListener("click", function() { let id = this.id.split('-')[1];
-                                                      LS.setItem("listOfInt", JSON.stringify(data[id]));
-                                                          
-                                                    })
+            tr.addEventListener("click", function() { 
+                let id = this.id.split('-')[1];
+                liOfInt.push( data[id] )
+                console.log( liOfInt.length )
+                let jason = JSON.stringify(liOfInt);
+                console.log( jason );
+                LS.setItem("liOfInt", JSON.stringify(jason));
+                HL(this.id)
+            })
             tr.setAttribute("id", "match-"+index);
 
             console.log(item);
@@ -168,14 +185,14 @@ document.addEventListener('DOMContentLoaded', function () {
 					Days = Math.ceil(diffTime / (MS * SEC * HRS * 24));
 
 					td = tr.insertCell(0);
-					td.classList.add("scheduled")
+					td.classList.add(item.status)
 					td.appendChild(document.createTextNode(' ' + item.season.startDate + "in " + Days + "days"));
 				} 
 
-                //td.classList.add("last-col");
+                td.classList.add("last-col");
                 // home team
                 
-                td = tr.insertCell(-1)
+                let td = tr.insertCell(-1)
                 td.appendChild( TeamLogo( item.awayTeam.id));
                 td.appendChild(document.createTextNode(' ' + item.homeTeam.name + "="+ item.homeTeam.id + "  vs   ")) ;
                 td = tr.insertCell(-1)
@@ -261,9 +278,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 break;
             case "list of interest":
-                let liofInt= JSON.parse(LS.getitem("listOfInt"));
-                console.log(listOfInt);
-                template = ` `;
+                let liOfInt= JSON.parse(LS.getitem("listOfInt"));
+
+                comsole.log(liOfInt);
+                liOfInt.forEach(function(item) { 
+                    let template = ``;
+                    template += `<div class="card">
+                             <div class="card-body">
+                             ${item.homeTeam.name} 
+                             </div>
+                             </div>`
+                })
+                const _int_list_ = document.getElmentById("interest-list")
+                _int_list_.innerHTML = template;
+
+                           
+
+        
 
 
 
