@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("main :" + pageTitle);
         switch (pageTitle) {
             case "Settings":
-                console.log(Restore("your-city"))
+               // console.log(Restore("your-city"))
                 update("google-Id");
                 update("your-name");
                 update("gravatar-id");
@@ -110,11 +110,16 @@ document.addEventListener('DOMContentLoaded', function () {
                let liOfInt= JSON.parse(LS.getItem(_ListOfInt_));
                 console.log(liOfInt);
                 var template = ``;
-                liOfInt.forEach(function(item) { 
+                liOfInt.forEach(function(item, index) { 
                     template += `<div class="card solid">
+                     		 <strong>${item.utcDate}</strong> 
                              <div class="card-body">
-                             ${item.homeTeam.name} 
+                             <strong>(${item.homeTeam.name} vs ${item.awayTeam.name})</strong>
                              </div>
+                             ${Teams.get(item.homeTeam.id)} ${item.utcDate} 
+                             <button type="button" id=${"card"+index} class="btn btn-primary">Remove</button>
+                             <button type="button" class="btn btn-primary">Info</button>
+                             <input> 
                              </div>`
                 })
                 const _int_list_ = document.getElementById("interest-list")
@@ -165,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let lastState = null;
         // for all data
         data.sort(by_status).forEach(function (item, index) {
-            var tr = tbdy.insertRow(-1)
+            var tr = tbdy.insertRow(-1);
             var td = tr.insertCell(-1);
             tbdy.classList.add( "gamesTable");
             var liOfInt = JSON.parse( LS.getItem(_ListOfInt_) );

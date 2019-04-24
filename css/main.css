@@ -26,16 +26,22 @@
     }
 }
 
+.HL {
+	background-color: red;
+}
 
 .solid {
+	width: 200px;
+	border: 2px solid;
     background-color: grey
     padding-top: 30px;
     padding-bottom: 30px;
     padding: 30px
+    text-align: center;
 }
 
 .HL {
-	background-color: white ;
+	background-color: red ;
 }
 
  .logoImg {
@@ -45,6 +51,7 @@
 
 
 .SCHEDULED {
+	color: red ;
     background-color: "red";
 }
 
