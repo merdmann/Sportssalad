@@ -9,9 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const HR = 60 /* 60 min /  hr */
     const SEC = 60 /* 60 sec / min */
     const LS = window.localStorage;
+    const _ListOfInt_ = "listOfInt";
 
 
 	function login() {
+		console.log("login");
   		var provider = new firebase.auth.GoogleAuthProvider();
 
   	firebase
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
      	console.log("Login successful!");
       	console.log(user.displayName);
       	userName = user.displayName;
-      	console.log(user.email);
+      	console.log(LS.getItem("google-id"));
       	userEmail = user.email;
       	getPosts();
     	})
@@ -65,7 +67,20 @@ document.addEventListener('DOMContentLoaded', function () {
             LS.setItem(name, _elem_.value);
         }
     }
-    //
+
+    /*
+     * calculae the winner team 
+     */
+    function TheWinnerIs(item) {
+        if (item.score.winner != "DRAW") {
+            let winner = item.score.winner == "AWAY_TEAM" ?
+                item.awayTeam.name : item.homeTeam.name;
+            return winner;
+        }
+    }
+    
+
+//
     // This is the main driver performing an initial request of data after the page has been
     // rendered.
     //
@@ -90,38 +105,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 _your_image_.setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
                 const _signIn_ = document.getElementById("btn-signIn");
-                _signIn_.addEventListener("click", function() {
-                	console.log("***doing login");
-                	login();
-                	console.log("***doing login");
-                })
                 break;
             case "list of interest":
-                let liOfInt = JSON.parse(LS.getItem("listOfInt"));
+               let liOfInt= JSON.parse(LS.getItem(_ListOfInt_));
                 console.log(liOfInt);
-                let template = ` `;
+                var template = ``;
+                liOfInt.forEach(function(item) { 
+                    template += `<div class="card solid">
+                             <div class="card-body">
+                             ${item.homeTeam.name} 
+                             </div>
+                             </div>`
+                })
+                const _int_list_ = document.getElementById("interest-list")
+                _int_list_.innerHTML = template;
                 break;
                 
             default:
                 console.log("Default" + pageTitle);
         }
     }
-    /*
-     * calculae the winner team 
-     */
-    function TheWinnerIs(item) {
-        if (item.score.winner != "DRAW") {
-            let winner = item.score.winner == "AWAY_TEAM" ?
-                item.awayTeam.name : item.homeTeam.name;
-            return winner;
-        }
-    }
-    
-    function TeamLogo( id ) { 
+
+
+
+
+    function TeamLogo( id, alt ) { 
         let _img_ = document.createElement("img");        
         _img_.setAttribute("src", getLogoURL( id ))
         _img_.classList.add("logoImg");
-        _img_.setAttribute("alt", id + getLogoURL(id))
+        _img_.setAttribute("alt", alt )
         
         return _img_;
     }
@@ -149,15 +161,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 return 1;
             return 0;
         }
-
         
         let lastState = null;
         // for all data
         data.sort(by_status).forEach(function (item, index) {
-            const tr = tbdy.insertRow(-1)
-            const td = tr.insertCell(-1);
+            var tr = tbdy.insertRow(-1)
+            var td = tr.insertCell(-1);
             tbdy.classList.add( "gamesTable");
-            var liOfInt = JSON.parse( LS.getItem("liOfInt") );
+            var liOfInt = JSON.parse( LS.getItem(_ListOfInt_) );
             if( !Array.isArray(liOfInt))
                 liOfInt = [];
 
@@ -167,8 +178,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 liOfInt.push( data[id] )
                 console.log( liOfInt.length )
                 let jason = JSON.stringify(liOfInt);
-                console.log( jason );
-                LS.setItem("liOfInt", JSON.stringify(jason));
+                // console.log( jason );
+                LS.setItem(_ListOfInt_, jason );
                 HL(this.id)
             })
             tr.setAttribute("id", "match-"+index);
@@ -184,20 +195,20 @@ document.addEventListener('DOMContentLoaded', function () {
 					const diffTime = Math.abs(date2.getTime() - date1.getTime());
 					Days = Math.ceil(diffTime / (MS * SEC * HRS * 24));
 
-					td = tr.insertCell(0);
+					td = tr.insertCell(-1);
 					td.classList.add(item.status)
 					td.appendChild(document.createTextNode(' ' + item.season.startDate + "in " + Days + "days"));
 				} 
 
                 td.classList.add("last-col");
                 // home team
-                
-                let td = tr.insertCell(-1)
-                td.appendChild( TeamLogo( item.awayTeam.id));
-                td.appendChild(document.createTextNode(' ' + item.homeTeam.name + "="+ item.homeTeam.id + "  vs   ")) ;
+                td = tr.insertCell(-1);  
+                td.appendChild( TeamLogo( item.awayTeam.id, item.awayTeam.name ));
+                td = tr.insertCell(-1);
+                td.appendChild( document.createTextNode(item.awayTeam.name + ' vs ' + item.homeTeam.name )) ;
                 td = tr.insertCell(-1)
     
-                td.appendChild(document.createTextNode(' ' + item.awayTeam.name + "=" + item.awayTeam.id));
+                //td.appendChild(document.createTextNode(' ' + item.awayTeam.name ));
     
     			if(item.status == "FINISHED") {
                 	if (item.score.winner != "DRAW") {
@@ -213,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 td = tr.insertCell(-1);
                 
                 //td.appendChild( TeamLogo( item.awayTeam.id));
-                td.appendChild( TeamLogo( item.homeTeam.id))
+                td.appendChild( TeamLogo( item.homeTeam.id, item.homeTeam.name))
                 
                 tbdy.appendChild(tr);
             
@@ -278,25 +289,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 break;
             case "list of interest":
-                let liOfInt= JSON.parse(LS.getitem("listOfInt"));
-
-                comsole.log(liOfInt);
-                liOfInt.forEach(function(item) { 
-                    let template = ``;
-                    template += `<div class="card">
-                             <div class="card-body">
-                             ${item.homeTeam.name} 
-                             </div>
-                             </div>`
-                })
-                const _int_list_ = document.getElmentById("interest-list")
-                _int_list_.innerHTML = template;
-
-                           
-
-        
-
-
+                break;
+     
 
         }
     }
@@ -320,5 +314,6 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(err => console.log(err))
     }
+    
     main();
 }) // DOMContentLoaded handler

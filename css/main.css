@@ -26,6 +26,14 @@
     }
 }
 
+
+.solid {
+    background-color: grey
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding: 30px
+}
+
 .HL {
 	background-color: white ;
 }
@@ -43,7 +51,7 @@
 .FINISHED {
    /* bacground-color: "yellow";*/
 	   /*background-color: #FAEBD7*/
-  color: white;
+  color: grey;
 }
 
 .gamesTable {
