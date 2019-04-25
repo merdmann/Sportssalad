@@ -22,9 +22,9 @@
         <nav class="navbar navbar-light bg-light">
             <img id="your-image" class="yourImage">
             <span class="greeting-text" id="span-greeting">Hi </span>
-            <form class="form-inline">
+            <form class="form-inline" action="javascript:void(0);">
                 <input id="search-text" class="form-control mr-sm-2 search-landscape" type="search" placeholder="Search" aria-label="Search">
-                <button id="btn-signIn" class="btn btn-outline-success my-2 my-sm-0" onclick="login()" type="submit">Sign In</button>
+                <button id="btn-signIn" class="btn btn-outline-success my-2 my-sm-0" onclick="login()">Sign In!</button>
                 <a class="tn tbn-info" role="button" href="./settings.html" class="btn btn-primary">Profile</a>
                 <a class="tn tbn-info" role="button" href="./listofinterest.html" class="btn btn-primary">Your List of Interest</a>
 
@@ -32,6 +32,17 @@
                 <a class="nav-link hide" href="./settings.html">Settings<span class="sr-only">Settings</span></a>
             </form>
         </nav>
+
+      <div id="isLogin" class="mt-5">
+        <div id="chat">
+          <p>Simple chat example</p>
+          <input type="text" />
+          <button onclick="writeNewPost()">Send post</button>
+        </div>
+
+        <div id="posts" class="mt-5"></div>
+      </div>
+    </div>
 
   <ul class="pagination">
     <li class="page-item"><a class="page-link" href="#FINISHED">Finished</a></li>
@@ -52,20 +63,20 @@
     </div>
 
 
-    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyB0DEUh2jQQ5huf0MFcZ_8fDQRF5-Qwrn0",
-            authDomain: "michaelsfirstone-da1a8.firebaseapp.com",
-            databaseURL: "https://michaelsfirstone-da1a8.firebaseio.com",
-            projectId: "michaelsfirstone-da1a8",
-            storageBucket: "michaelsfirstone-da1a8.appspot.com",
-            messagingSenderId: "759806805576"
-        };
-        firebase.initializeApp(config);
-
-    </script>
+ 
+<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB0DEUh2jQQ5huf0MFcZ_8fDQRF5-Qwrn0",
+    authDomain: "michaelsfirstone-da1a8.firebaseapp.com",
+    databaseURL: "https://michaelsfirstone-da1a8.firebaseio.com",
+    projectId: "michaelsfirstone-da1a8",
+    storageBucket: "michaelsfirstone-da1a8.appspot.com",
+    messagingSenderId: "759806805576"
+  };
+  firebase.initializeApp(config);
+  </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

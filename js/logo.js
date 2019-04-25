@@ -465,7 +465,7 @@ Teams.set(108, {
  * Fetch url for a given team key
  */
 function getLogoURL(key) {
-    console.log(key);
+    //console.log(key);
 	if( Teams.has(key) ) {
     	return Teams.get(key).logoUrl;
     }
