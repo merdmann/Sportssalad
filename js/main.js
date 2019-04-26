@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (lastState !== item.status) {
                     lastState = item.status;
-                    // IN case the state changes we a bootstrap pagination tag
+                    // IN case the state changes we add bootstrap pagination tag
                     const li = document.createElement("li");
                     li.classList.add("page-item");
                     const a = document.createElement("a")
@@ -301,7 +301,7 @@ function removecard(id) {
     //_card_.style.display='none';
     _card_.parentNode.removeChild(_card_)
     //_card_.innerHTML = "";
-    remove(_card_);
+//    remove(_card_);
                 // console.log( jason );
 	console.log("removing card"+id);
 }

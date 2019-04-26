@@ -34,9 +34,7 @@
     background-color: "red";
 }
 
-.FINISHED {
-   /* bacground-color: "yellow";*/
-	   /*background-color: #FAEBD7*/
+ .FINISHED {
   color: grey;
 }
 
@@ -44,12 +42,12 @@
     background-color: "blue";
     border: 1px solid black;
     border: 1px solid black;
+    margin-left: 10px;
 
 }
 
-
 .greeting-text {
-    padding: 30;
+    padding-top: 40px;
     font-weight: bold;
 }
 
@@ -77,4 +75,16 @@
 	   height:80px;
 	   display: auto;
  	}
+
+    .FINISHED {
+       color: grey;
+         font-size: 40px;
+
+	}
+
+	.SCHEULED {
+		color: red ;
+    	background-color: "red";
+    	font-size: 40px;
+	}
 }
