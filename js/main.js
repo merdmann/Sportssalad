@@ -257,8 +257,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
             case "list of interest":
                 break;
-
-
         }
     }
     // fetches data from the  server
@@ -323,9 +321,9 @@ function login() {
             var user = result.user;
             console.log("Login successful!");
             console.log(user.displayName);
-            userName = user.displayName;
+            var userName = user.displayName;
             console.log(user.email);
-            userEmail = user.email;
+            var userEmail = user.email;
             getPosts();
         })
         .catch(function (error) {
@@ -338,11 +336,12 @@ function login() {
 
 function writeNewPost() {
     console.log("in write post");
-    const userInput = document.querySelector("input").value;
+    const userInput = document.getElementById("post").value;
+    const LS = window.localStorage;
 
     // A post entry.
     var postData = {
-        author: userName,
+        author: LS.getItem('your-name') ,
         body: userInput,
         date: new Date().toISOString()
     };
@@ -365,11 +364,12 @@ function writeNewPost() {
         .ref()
         .update(updates);
 
-    // getPosts();
+//    getPosts();
 }
 
 function getPosts() {
     const postsDiv = document.querySelector("#posts");
+    console.log("getPosts" + postsDiv )
 
     firebase
         .database()

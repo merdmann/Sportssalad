@@ -17,3 +17,18 @@ In town is to be drived from the own ip address. On taping on the game i will ge
 
 
 Story 2 - AS a user of sportssalade i am able to communicate with other fan of the same color to make appointments using  chat channel.
+
+
+#
+
+3 Views
+   -- schwduele
+   -- teams  (missing)
+   -- chat   (missing)
+   
+   No white spaces
+   Mobile orietation
+   Orientation switch
+   
+   
+Tablet - design
