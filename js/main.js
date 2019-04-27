@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const LS = window.localStorage;
     const _ListOfInt_ = "listOfInt";
 
-
-
     function IsVsible(name) {
         let item = document.getElementById(name);
 
@@ -64,8 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 update("gravatar-id");
                 update("your-city");
                 break;
-            case "flash":
-                fetchData("https://api.football-data.org/v2/competitions/2018/teams");
+                
             case "Sports Salad": // the main page. provide greeting
                 var _span_greeting_ = document.getElementById("span-greeting");
                 _span_greeting_.innerHTML = "Hi " + LS.getItem("your-name");
@@ -77,19 +74,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log("sign in .....");
                 });
                 break;
-            case "Team":
-                Teams.forEach(function(id) {
-                	console.log(id);
-                    fetchData("https://api.football-data.org/v2/teams/" + id + "/matches/");
-                })
-    			//fetchData("https://api.football-data.org/v2/teams/" + id + "/matches/");
+            case "Team":  
+                console.log("Team ");
+                fetchData("http://api.football-data.org/v2/competitions/2000/teams");
     			break;
             case "list of interest":
                 let liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
                 console.log(liOfInt);
                 var template = ``;
                 liOfInt.forEach(function (item, index) {
-                    template += `<div id=${"card"+index} class="card solid">
+                template += `<div id=${"card"+index} class="card solid">
                      		 <strong>${item.utcDate} ${Teams.get(item.homeTeam.id)}</strong> 
                              <div class="card-body">
                              <strong>(${item.homeTeam.name} vs ${item.awayTeam.name})</strong>
@@ -238,11 +232,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // do the per page rendering of the received data
     function ProcessAndRender(data) {
+        console.log("ProcessAndRender");
         let pageTitle = document.title;
         switch (pageTitle) {
             case "flash":  // not used
             	break	
-
+            case "Team":
+                console.log(data);
             case "Settings":
                 update("google-id");
                 update("avatar-id");
@@ -262,7 +258,8 @@ document.addEventListener('DOMContentLoaded', function () {
             case "list of interest":
                 break;
         }
-    }
+    } /* ProcessAndRender */
+    
     // fetches data from the  server
     function fetchData(url) {
         console.log("fetching" + url);
@@ -279,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(function (myJson) {
                 document.body.style.cursor = 'auto'
-                ProcessAndRender(myJson)
+                ProcessAndRender(myJson);
             })
             .catch(err => console.log(err))
     }
