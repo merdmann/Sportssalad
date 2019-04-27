@@ -12,12 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const _ListOfInt_ = "listOfInt";
 
 
-    // grvatar access to pictures based on http://en.gravatar.com/site/implement/ and using md5.
-    function gravatar(email, option) {
-        const result = "https://www.gravatar.com/avatar/" + md5(email.toLowerCase().trim()) + "?s=" + option;
-        console.log(result);
-        return result;
-    }
 
     function IsVsible(name) {
         let item = document.getElementById(name);
@@ -76,10 +70,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 var _span_greeting_ = document.getElementById("span-greeting");
                 _span_greeting_.innerHTML = "Hi " + LS.getItem("your-name");
 
-                _your_image_.setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));
+                _your_image_ /* .setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));*/
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
                 const _signIn_ = document.getElementById("btn-signIn");
+                _signIn_.addEventListener('click', function() {
+                    console.log("sign in .....");
+                });
                 break;
+            case "Team":
+                Teams.forEach(function(id) {
+                	console.log(id);
+                    fetchData("https://api.football-data.org/v2/teams/" + id + "/matches/");
+                })
+    			//fetchData("https://api.football-data.org/v2/teams/" + id + "/matches/");
+    			break;
             case "list of interest":
                 let liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
                 console.log(liOfInt);
@@ -246,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
             case "Sports Salad":
                 console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
-                _your_image_.setAttribute("src", gravatar("Michael.erdmann@snafu.de"))
+                /* _your_image_.setAttribute("src", gravatar("Michael.erdmann@snafu.de")) */
                 FillTable("summary-table", data.matches, searchText);
                 _search_text_.addEventListener('keypress', function (e) {
                     console.log(searchText)
@@ -298,17 +302,12 @@ function removecard(id) {
     let _card_=document.getElementById("card"+id )
     //_card_.style.display='none';
     _card_.parentNode.removeChild(_card_)
-    //_card_.innerHTML = "";
-//    remove(_card_);
-                // console.log( jason );
 	console.log("removing card"+id);
 }
 
-
 var database = firebase.database();
 
-console.log("outside")
-
+// login into firebase
 function login() {
     console.log("in login func")
     var provider = new firebase.auth.GoogleAuthProvider();
@@ -363,34 +362,66 @@ function writeNewPost() {
         .database()
         .ref()
         .update(updates);
+}
 
-//    getPosts();
+
+function writeNewPost() {
+ const LS = window.localStorage;
+  console.log("in write post");
+  const userInput = document.querySelector("input").value;
+
+  // A post entry.
+  var postData = {
+    author: LS.getItem("your-name"),
+    body: userInput,
+    date: new Date().toISOString()
+  };
+
+  console.log(postData);
+
+  // Get a key for a new Post.
+  var newPostKey = firebase
+    .database()
+    .ref()
+    .child("posts")
+    .push().key;
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  var updates = {};
+  updates["/posts/" + newPostKey] = postData;
+
+  firebase
+    .database()
+    .ref()
+    .update(updates);
+
+  // getPosts();
 }
 
 function getPosts() {
-    const postsDiv = document.querySelector("#posts");
-    console.log("getPosts" + postsDiv )
+  const LS = window.localStorage;
+  const postsDiv = document.querySelector("#posts");
 
-    firebase
-        .database()
-        .ref("posts")
-        .on("value", function (data) {
-            console.log(data.val());
+  firebase
+    .database()
+    .ref("posts")
+    .on("value", function(data) {
+      console.log(data.val());
 
-            const allPosts = data.val();
+      const allPosts = data.val();
 
-            let template = "";
-            for (key in allPosts) {
-                console.log(allPosts[key].author);
-                template += `
+      let template = "";
+      for (key in allPosts) {
+        console.log(allPosts[key].author);
+        template += `
           <div>
             <p>Author: ${allPosts[key].author}</p>
             <p>Message: ${allPosts[key].body}</p>
             <p>Date: ${allPosts[key].date}</p>
           </div>
         `;
-            }
+      }
 
-            postsDiv.innerHTML = template;
-        });
+      postsDiv.innerHTML = template;
+    });
 }
