@@ -91,4 +91,10 @@
     	background-color: "red";
     	font-size: 40px;
 	}
+    
+    .middle {
+       transform: translate(200px,200px);
+       color: red;
+       background-color: blue
+    }
 }

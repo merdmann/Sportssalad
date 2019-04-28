@@ -473,3 +473,16 @@ function getLogoURL(key) {
     	return { "venue": "" , "getLogoUrl": "" };
     }
 }
+
+
+
+function getStadion(key) {
+    //console.log(key);
+	if( Teams.has(key) ) {
+    	return Teams.get(key).venue;
+    }
+    else {
+    	return { "venue": "" , "getLogoUrl": "" };
+    }
+}
+

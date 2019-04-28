@@ -11,11 +11,77 @@ document.addEventListener('DOMContentLoaded', function () {
     const LS = window.localStorage;
     const _ListOfInt_ = "listOfInt";
 
-    function IsVsible(name) {
-        let item = document.getElementById(name);
+    var database = firebase.database();
 
-        return item.display == "none";
-    }
+    // login into firebase
+    function login() {
+        console.log("in login func")
+        var provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase
+            .auth()
+            .signInWithPopup(provider)
+            .then(function (result) {
+                // The signed-in user info.
+                var user = result.user;
+                console.log("Login successful!");
+                console.log(user.displayName);
+                var userName = user.displayName;
+                console.log(user.email);
+                var userEmail = user.email;
+                getPosts();
+            })
+            .catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorCode, errorMessage);
+            });
+        
+        const _btn_post_ = document.getElementById("_btn_post_");
+        _btn_post_.addEventListener( 'click', function() {
+            console.log("Post .....");
+            writeNewPost();
+        });
+        
+    
+    } /*login*/
+
+
+    function writeNewPost() {
+        const LS = window.localStorage;
+        console.log("in write post");
+        const userInput = document.querySelector("post").value;
+
+        // A post entry.
+        var postData = {
+            author: LS.getItem("your-name"),
+            body: userInput,
+            date: new Date().toISOString()
+        };
+
+        console.log(postData);
+
+        // Get a key for a new Post.
+        var newPostKey = firebase
+            .database()
+            .ref()
+            .child("posts")
+            .push().key;
+
+        // Write the new post's data simultaneously in the posts list and the user's post list.
+        var updates = {};
+        updates["/posts/" + newPostKey] = postData;
+
+        firebase
+            .database()
+            .ref()
+            .update(updates);
+
+        // getPosts();
+    } /* writeNewPost */
+
+
     //
     // This function is expectd to update the settings page and to place th
     // input fields.
@@ -62,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 update("gravatar-id");
                 update("your-city");
                 break;
-                
+
             case "Sports Salad": // the main page. provide greeting
                 var _span_greeting_ = document.getElementById("span-greeting");
                 _span_greeting_.innerHTML = "Hi " + LS.getItem("your-name");
@@ -70,21 +136,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 _your_image_ /* .setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));*/
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
                 const _signIn_ = document.getElementById("btn-signIn");
-                _signIn_.addEventListener('click', function() {
+                _signIn_.addEventListener('click', function () {
                     console.log("sign in .....");
+                    login();
                 });
                 break;
-            case "Team":  
+                
+            case "Team":
                 console.log("Team ");
-                fetchData("http://api.football-data.org/v2/competitions/2000/teams");
-    			break;
+                fetchData("http://api.football-data.org/v2/teams/7282");
+                break;
+                
             case "list of interest":
                 let liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
                 console.log(liOfInt);
                 var template = ``;
                 liOfInt.forEach(function (item, index) {
-                template += `<div id=${"card"+index} class="card solid">
-                     		 <strong>${item.utcDate} ${Teams.get(item.homeTeam.id)}</strong> 
+                    template += `<div id=${"card"+index} class="card solid">
+                     		 <strong>  ${moment(item.utcDate).fromNow()} ${getStadion(item.homeTeam.id)}</strong> 
                              <div class="card-body">
                              <strong>(${item.homeTeam.name} vs ${item.awayTeam.name})</strong>
                              </div>
@@ -101,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
             default:
                 console.log("Default" + pageTitle);
         }
-    }
+    } /* main */
 
 
     /* add the team info TO an jhtml element */
@@ -110,6 +179,10 @@ document.addEventListener('DOMContentLoaded', function () {
         _img_.setAttribute("src", getLogoURL(id))
         _img_.classList.add("logoImg");
         _img_.setAttribute("alt", alt)
+        _img_.id=id;
+        _img_.addEventListener( "click", function( ) {
+            console.log( "Team =" + this.id );
+        } )
 
         return _img_;
     }
@@ -126,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let shownLines = 0;
         let tbdy = document.getElementById(root);
         if (tbdy == null) {
-            consoe.log(root + " not found.")
+            console.log(root + " not found.")
             return;
         }
 
@@ -148,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!Array.isArray(liOfInt))
                 liOfInt = [];
 
-            tr.classList.add(item.status) // handle the click on the game
+            tr.classList.add(item.status) // handle the click on the game list
             tr.addEventListener("click", function () {
                 let id = this.id.split('-')[1];
                 liOfInt.push(data[id])
@@ -228,17 +301,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }) // end for each
-    } //FillTable
+    } /*FillTable*/
 
     // do the per page rendering of the received data
     function ProcessAndRender(data) {
         console.log("ProcessAndRender");
         let pageTitle = document.title;
         switch (pageTitle) {
-            case "flash":  // not used
-            	break	
+            case "flash": // not used
+                break
             case "Team":
                 console.log(data);
+                data.squad.forEach( function( item ) {
+                    console.log(item.name + "/" + item.position );
+                } )
+                break;
             case "Settings":
                 update("google-id");
                 update("avatar-id");
@@ -259,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
         }
     } /* ProcessAndRender */
-    
+
     // fetches data from the  server
     function fetchData(url) {
         console.log("fetching" + url);
@@ -288,47 +365,20 @@ document.addEventListener('DOMContentLoaded', function () {
  * remove a card from the local storage (ListOfInt) and the screen
  */
 function removecard(id) {
-	const _ListOfInt_ = "listOfInt";
+    const _ListOfInt_ = "listOfInt";
 
-	const LS = window.localStorage;
-	let liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
-    liOfInt.splice( id, 1);
+    const LS = window.localStorage;
+    let liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
+    liOfInt.splice(id, 1);
     let jason = JSON.stringify(liOfInt);
     LS.setItem(_ListOfInt_, jason);
 
-    let _card_=document.getElementById("card"+id )
+    let _card_ = document.getElementById("card" + id)
     //_card_.style.display='none';
     _card_.parentNode.removeChild(_card_)
-	console.log("removing card"+id);
+    console.log("removing card" + id);
 }
 
-var database = firebase.database();
-
-// login into firebase
-function login() {
-    console.log("in login func")
-    var provider = new firebase.auth.GoogleAuthProvider();
-
-    firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then(function (result) {
-            // The signed-in user info.
-            var user = result.user;
-            console.log("Login successful!");
-            console.log(user.displayName);
-            var userName = user.displayName;
-            console.log(user.email);
-            var userEmail = user.email;
-            getPosts();
-        })
-        .catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-        });
-}
 
 function writeNewPost() {
     console.log("in write post");
@@ -337,7 +387,7 @@ function writeNewPost() {
 
     // A post entry.
     var postData = {
-        author: LS.getItem('your-name') ,
+        author: LS.getItem('your-name'),
         body: userInput,
         date: new Date().toISOString()
     };
@@ -362,63 +412,31 @@ function writeNewPost() {
 }
 
 
-function writeNewPost() {
- const LS = window.localStorage;
-  console.log("in write post");
-  const userInput = document.querySelector("input").value;
-
-  // A post entry.
-  var postData = {
-    author: LS.getItem("your-name"),
-    body: userInput,
-    date: new Date().toISOString()
-  };
-
-  console.log(postData);
-
-  // Get a key for a new Post.
-  var newPostKey = firebase
-    .database()
-    .ref()
-    .child("posts")
-    .push().key;
-
-  // Write the new post's data simultaneously in the posts list and the user's post list.
-  var updates = {};
-  updates["/posts/" + newPostKey] = postData;
-
-  firebase
-    .database()
-    .ref()
-    .update(updates);
-
-  // getPosts();
-}
 
 function getPosts() {
-  const LS = window.localStorage;
-  const postsDiv = document.querySelector("#posts");
+    const LS = window.localStorage;
+    const postsDiv = document.querySelector("#posts");
 
-  firebase
-    .database()
-    .ref("posts")
-    .on("value", function(data) {
-      console.log(data.val());
+    firebase
+        .database()
+        .ref("posts")
+        .on("value", function (data) {
+            console.log(data.val());
 
-      const allPosts = data.val();
+            const allPosts = data.val();
 
-      let template = "";
-      for (key in allPosts) {
-        console.log(allPosts[key].author);
-        template += `
+            let template = "";
+            for (key in allPosts) {
+                console.log(allPosts[key].author);
+                template += `
           <div>
             <p>Author: ${allPosts[key].author}</p>
             <p>Message: ${allPosts[key].body}</p>
             <p>Date: ${allPosts[key].date}</p>
           </div>
         `;
-      }
+            }
 
-      postsDiv.innerHTML = template;
-    });
+            postsDiv.innerHTML = template;
+        });
 }
