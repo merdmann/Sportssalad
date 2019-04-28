@@ -87,14 +87,62 @@
 	}
 
 	.SCHEULED {
-		color: red ;
-    	background-color: "red";
-    	font-size: 40px;
+		color: green;
+    	background-color: auto;
+    	font-size: 80px;
+/*        display: none; */
 	}
     
-    .middle {
-       transform: translate(200px,200px);
-       color: red;
-       background-color: blue
-    }
 }
+
+
+    
+    .GoalKeeper {
+       transform: translate(360px,-160px);
+       color: white;
+       background-color: ;
+       z-index: 999;
+    }
+
+    .Defender {
+       transform: translate(160px, -320px);
+       color: white;
+       background-color: ;
+       z-index: 999;
+    }
+
+   .Midfielder1 {
+       transform: translate(160px, -140px);
+       color: white;
+       background-color: ;
+       z-index: 999;
+    }
+
+  .Midfielder2 {
+       transform: translate(160px, -160px);
+       color: white;
+       background-color: ;
+       z-index: 999;
+    }
+
+  .Midfielder3 {
+       transform: translate(160px, -180px);
+       color: white;
+       background-color: ;
+       z-index: 999;
+    }
+
+  .Attacker1 {
+       transform: translate(140px, -220px);
+       color: white;
+       background-color: ;
+       z-index: 999;
+    }
+
+ .Attacker_2 {
+       transform: translate(140px, -220px);
+       color: white;
+       background-color: ;
+       z-index: 999;
+    }
+

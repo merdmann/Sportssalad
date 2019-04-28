@@ -112,6 +112,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function InitiateTeamRQ(team) {
+        console.log("Team ");
+        fetchData("http://api.football-data.org/v2/teams/"+team);  
+    }
 
     //
     // This is the main driver performing an initial request of data after the page has been
@@ -182,6 +186,8 @@ document.addEventListener('DOMContentLoaded', function () {
         _img_.id=id;
         _img_.addEventListener( "click", function( ) {
             console.log( "Team =" + this.id );
+            window.open("./team.html");
+            InitiateTeamRQ(this.id);
         } )
 
         return _img_;
@@ -222,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 liOfInt = [];
 
             tr.classList.add(item.status) // handle the click on the game list
-            tr.addEventListener("click", function () {
+          tr.addEventListener("click", function () {
                 let id = this.id.split('-')[1];
                 liOfInt.push(data[id])
                 console.log(liOfInt.length)
@@ -309,12 +315,18 @@ document.addEventListener('DOMContentLoaded', function () {
         let pageTitle = document.title;
         switch (pageTitle) {
             case "flash": // not used
-                break
+                break;
             case "Team":
+                let template = "";
                 console.log(data);
                 data.squad.forEach( function( item ) {
                     console.log(item.name + "/" + item.position );
-                } )
+                    template += `<div class="${item.position}">${item.name}                      
+                             </div>`
+                })
+                const _int_list_ = document.getElementById("names");
+                _int_list_.inerHTML = template;
+                
                 break;
             case "Settings":
                 update("google-id");
