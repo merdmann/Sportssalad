@@ -1,7 +1,9 @@
 'use strict'
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
-    let Teams = new Map();
+    main();
+});
+
     let searchText = "";
     const _your_image_ = document.getElementById("your-image");
     const _search_text_ = document.getElementById("search-text");
@@ -15,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // login into firebase
     function login() {
-        console.log("in login func")
         var provider = new firebase.auth.GoogleAuthProvider();
 
         firebase
@@ -37,14 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 var errorMessage = error.message;
                 console.log(errorCode, errorMessage);
             });
-        
+
         const _btn_post_ = document.getElementById("_btn_post_");
         _btn_post_.addEventListener( 'click', function() {
             console.log("Post .....");
             writeNewPost();
         });
-        
-    
+
     } /*login*/
 
 
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // This function is expectd to update the settings page and to place th
     // input fields.
     //
-    function update(name) {
+function update(name) {
         const LS = window.localStorage;
         console.log("update(" + name + ")");
         let _elem_ = document.getElementById(name);
@@ -99,7 +99,23 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log("value=" + _elem_.value)
             LS.setItem(name, _elem_.value);
         }
-    }
+}
+
+/* turn display for all elements with the given name */
+function show(name) {
+    const cls = document.querySelectorAll(name);
+    cls.forEach( function( elem ) { elem.style.display = "initial"; })
+
+    return cls;
+}
+
+/* turn display class on */
+function hide(name) {
+    const cls = document.querySelectorAll(name);
+    cls.forEach( function( elem ) { elem.style.display = "none"; })
+
+    return cls;
+}
 
     /*
      * calculae the winner team 
@@ -134,6 +150,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
 
             case "Sports Salad": // the main page. provide greeting
+            	hide(".settings");
+                hide(".pitch");
+                show(".homepage")
+                
                 var _span_greeting_ = document.getElementById("span-greeting");
                 _span_greeting_.innerHTML = "Hi " + LS.getItem("your-name");
 
@@ -177,21 +197,6 @@ document.addEventListener('DOMContentLoaded', function () {
     } /* main */
 
 
-    /* add the team info TO an jhtml element */
-    function TeamLogo(id, alt) {
-        let _img_ = document.createElement("img");
-        _img_.setAttribute("src", getLogoURL(id))
-        _img_.classList.add("logoImg");
-        _img_.setAttribute("alt", alt)
-        _img_.id=id;
-        _img_.addEventListener( "click", function( ) {
-            console.log( "Team =" + this.id );
-            window.open("./team.html");
-            InitiateTeamRQ(this.id);
-        } )
-
-        return _img_;
-    }
 
     /* highlight the picked team line */
     function HL(id) {
@@ -218,8 +223,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         let lastState = null;
+        const _summary_table_ = document.getElementById("summary-table");
+        
         // for all data
         data.sort(by_status).forEach(function (item, index) {
+            let row = `<tr>
+            	<td><img src="${getLogoURL(item.homeTeam.id)}" class="logo-img"></img></td>
+            	<td>${item.homeTeam.name} <span> vs </span></td>
+            	<td>${item.awayTeam.name} </td>
+            	<td><img src="${getLogoURL(item.awayTeam.id)}" class="logo-img"></img></td>
+            </tr>`;
+            
+            _summary_table_.innerHTML += row;
+
+        /*</tr>           
             var tr = tbdy.insertRow(-1);
             var td = tr.insertCell(-1);
             tbdy.classList.add("gamesTable");
@@ -228,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 liOfInt = [];
 
             tr.classList.add(item.status) // handle the click on the game list
-          tr.addEventListener("click", function () {
+            tr.addEventListener("click", function () {
                 let id = this.id.split('-')[1];
                 liOfInt.push(data[id])
                 console.log(liOfInt.length)
@@ -244,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name + "!" + TheWinnerIs(item);
             if (line.includes(filter)) {
                 let Days = 0;
-                if (item.satus == "SCHEDULED") {
+                if (item.status == "SCHEDULED") {
                     const date1 = new Date();
                     const date2 = new Date(item.season.startDate);
                     const diffTime = Math.abs(date2.getTime() - date1.getTime());
@@ -305,28 +322,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     td.appendChild(li);
                 }
-            }
+            } */
         }) // end for each
     } /*FillTable*/
+    
+    function NbrOf(array, string){
+        let result = 0;
+        array.forEach( function(item) {
+            if( item.indexOf(string))
+                ++result;
+        })
+        return result;
+    }
 
     // do the per page rendering of the received data
     function ProcessAndRender(data) {
         console.log("ProcessAndRender");
         let pageTitle = document.title;
+        let position = [];
+        
         switch (pageTitle) {
             case "flash": // not used
                 break;
             case "Team":
                 let template = "";
+                let position = [];
                 console.log(data);
-                data.squad.forEach( function( item ) {
-                    console.log(item.name + "/" + item.position );
-                    template += `<div class="${item.position}">${item.name}                      
-                             </div>`
+                data.squad.forEach( function( item ) {            
+                    let nbr = NbrOf( position, item.position );
+                    
+                    console.log(item.name + "/" + item.position + nbr);
+                    
+                    position.push(item.position)
+                    template += `<div class="${item.position+""+nbr}">${item.name}</div>`
+                    console.log(template);
                 })
                 const _int_list_ = document.getElementById("names");
                 _int_list_.inerHTML = template;
-                
+                position = [];
                 break;
             case "Settings":
                 update("google-id");
@@ -370,9 +403,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(err => console.log(err))
     }
 
-    main();
-}) // DOMContentLoaded handler
-
+    function openProfile() {
+        hide(".homepage")
+        show(".setings")
+    }
 /*
  * remove a card from the local storage (ListOfInt) and the screen
  */
@@ -389,7 +423,7 @@ function removecard(id) {
     //_card_.style.display='none';
     _card_.parentNode.removeChild(_card_)
     console.log("removing card" + id);
-}
+} /* removecard */
 
 
 function writeNewPost() {
@@ -421,7 +455,7 @@ function writeNewPost() {
         .database()
         .ref()
         .update(updates);
-}
+} /* writeNewPost */
 
 
 
@@ -448,7 +482,6 @@ function getPosts() {
           </div>
         `;
             }
-
             postsDiv.innerHTML = template;
         });
 }

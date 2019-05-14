@@ -23,9 +23,8 @@
 	background-color: red ;
 }
 
- .logoImg {
-	width: 80px;
-	height:80px;
+ .img-logo {
+	height: 60%;
  }
 
 
@@ -51,64 +50,40 @@
     font-weight: bold;
 }
 
-
-@media only screen and (min-width: 320px) and (min-height: 600px) {
-    .last-col {
-        display: none;
+    .upright {
+      transform: rotate(90deg);
     }
-
-    .logoImg {
-	   width: 80px;
-	   height:80px;
-	   display: none;
- 	}
-}
-
-/* big  ipad */
-@media only screen and (min-width: 1024px) and (min-height: 1367px) {
-	.text {
-    	font-size: 40px;
-	}
-
-    .last-col {
-    	display: auto;
-    }
-
-    .logoImg {
-	   width: 80px;
-	   height:80px;
-	   display: auto;
- 	}
-
-    .FINISHED {
-       color: grey;
-         font-size: 40px;
-
-	}
-
-	.SCHEULED {
-		color: green;
-    	background-color: auto;
-    	font-size: 80px;
-/*        display: none; */
-	}
     
-}
-
-
-    
-    .GoalKeeper {
-       transform: translate(360px,-160px);
-       color: white;
+    .GoalKeeper0 {
+       transform: translate(-80px,-200px);
+       color: red;
        background-color: ;
        z-index: 999;
+       position: absolute;
     }
 
-    .Defender {
+    .Defender0 {
+       transform: translate(160px, 320px);
+       color: red;
+       background-color: ;
+       z-index: 999;
+       position: absolute;
+    }
+
+    .Defender1 {
+       transform: translate(160px, 320px);
+       color: red;
+       background-color: ;
+       z-index: 999;
+       position: absolute;
+    }
+
+    .Defender2 {
        transform: translate(160px, -320px);
-       color: white;
+       color: red;
        background-color: ;
        z-index: 999;
+       position: absolute;  
     }
 
    .Midfielder1 {
@@ -116,6 +91,7 @@
        color: white;
        background-color: ;
        z-index: 999;
+       position: absolute;
     }
 
   .Midfielder2 {
@@ -123,6 +99,7 @@
        color: white;
        background-color: ;
        z-index: 999;
+       position: absolute;
     }
 
   .Midfielder3 {
@@ -130,6 +107,7 @@
        color: white;
        background-color: ;
        z-index: 999;
+       position: absolute;
     }
 
   .Attacker1 {
@@ -137,12 +115,15 @@
        color: white;
        background-color: ;
        z-index: 999;
+       position: absolute;
+
     }
 
- .Attacker_2 {
+ .Attacker2 {
        transform: translate(140px, -220px);
        color: white;
        background-color: ;
        z-index: 999;
+       position: absolute;
     }
 
