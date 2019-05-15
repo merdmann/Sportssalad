@@ -228,10 +228,11 @@ function hide(name) {
         // for all data
         data.sort(by_status).forEach(function (item, index) {
             let row = `<tr>
-            	<td><img src="${getLogoURL(item.homeTeam.id)}" class="logo-img"></img></td>
+            	<td><img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img></td>
             	<td>${item.homeTeam.name} <span> vs </span></td>
-            	<td>${item.awayTeam.name} </td>
-            	<td><img src="${getLogoURL(item.awayTeam.id)}" class="logo-img"></img></td>
+            	<td>${item.awayTeam.name} ${getStadion(item.awayTeam.id)}</td>
+                <td><img src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img></td>
+                <td><a href="https://www.google.com/maps/search/?api=1&query="${getStadion(item.awayTeam.id)}"">Stadion</a>
             </tr>`;
             
             _summary_table_.innerHTML += row;

@@ -24,7 +24,7 @@
 }
 
  .img-logo {
-	height: 60%;
+	max-height: 100px;
  }
 
 
