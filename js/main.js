@@ -120,18 +120,18 @@ function hide(name) {
     /*
      * calculae the winner team 
      */
-    function TheWinnerIs(item) {
+function TheWinnerIs(item) {
         if (item.score.winner != "DRAW") {
             let winner = item.score.winner == "AWAY_TEAM" ?
                 item.awayTeam.name : item.homeTeam.name;
             return winner;
         }
-    }
+}
 
-    function InitiateTeamRQ(team) {
-        console.log("Team ");
-        fetchData("http://api.football-data.org/v2/teams/"+team);  
-    }
+function InitiateTeamRQ(team) {
+    console.log("Team ");
+    fetchData("http://api.football-data.org/v2/teams/"+team);  
+}
 
     //
     // This is the main driver performing an initial request of data after the page has been
@@ -153,6 +153,7 @@ function hide(name) {
             	hide(".settings");
                 hide(".pitch");
                 show(".homepage")
+                hide(".chat")
                 
                 var _span_greeting_ = document.getElementById("span-greeting");
                 _span_greeting_.innerHTML = "Hi " + LS.getItem("your-name");
@@ -232,10 +233,11 @@ function hide(name) {
             	<td>${item.homeTeam.name} <span> vs </span></td>
             	<td>${item.awayTeam.name} ${getStadion(item.awayTeam.id)}</td>
                 <td><img src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img></td>
-                <td><a href="https://www.google.com/maps/search/?api=1&query="${getStadion(item.awayTeam.id)}"">Stadion</a>
+                <td><a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
             </tr>`;
             
             _summary_table_.innerHTML += row;
+            console.log(row);
 
         /*</tr>           
             var tr = tbdy.insertRow(-1);

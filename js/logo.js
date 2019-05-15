@@ -474,12 +474,22 @@ function getLogoURL(key) {
     }
 }
 
+function googleFormat(f) {
+	let result="";
+
+	for( let i=0; i<f.length; ++i) {
+		let ch = f.charAt(i)
+		result += ch == ' ' ? '+': f.charAt(i)
+	}
+
+	return result;
+}
 
 
 function getStadion(key) {
     //console.log(key);
 	if( Teams.has(key) ) {
-    	return Teams.get(key).venue;
+    	return googleFormat( Teams.get(key).venue.trim() )
     }
     else {
     	return { "venue": "" , "getLogoUrl": "" };
