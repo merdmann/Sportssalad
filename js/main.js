@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let searchText = "";
     const _your_image_ = document.getElementById("your-image");
     const _search_text_ = document.getElementById("search-text");
+    const _displayname_ = document.getElementById("span-displayname");
+
     const MS = 1000 /* 1000 ms == 1 seconds */
     const HR = 60 /* 60 min /  hr */
     const SEC = 60 /* 60 sec / min */
@@ -43,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Login successful!");
                 console.log(user.displayName);
                 var userName = user.displayName;
+                _displayname_.innerHTML = userName;
                 console.log(user.email);
                 var userEmail = user.email;
                 loggedIn = true;
