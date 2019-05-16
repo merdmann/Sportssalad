@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
+ </head>
     
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <body style="font-family:Verdana;color:#aaaaaa;">
@@ -19,13 +19,13 @@
   <h1 id="span-greeting">Hi</h1>
 </div>
 
-<article>
+<article class="homepage">
 <div style="overflow:auto">
   <div class="menu">
-    <a href="#">Profile</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
-    <a href="#">Link 4</a>
+    <a href="#" onclick="openProfile()">Profile</a>
+    <a id="btn_login" href="#" onclick="toggleLogin()"></a>
+    <a href="#" onclick="">Scheduled Games</a>
+    <a href="#">Stadion</a>
   </div>
 
   <div class="main homepage">
@@ -49,7 +49,7 @@
 
 </article>
 
-<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 <script>
   // Initialize Firebase
   var config = {

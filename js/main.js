@@ -1,4 +1,3 @@
-
 'use strict'
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
@@ -14,7 +13,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const LS = window.localStorage;
     const _ListOfInt_ = "listOfInt";
 
+    var currentFilter = filter_scheduled();
     var database = firebase.database();
+    var loggedIn = false;
+    const _btn_login_ = document.getElementById("btn_login")
+  
+    _btn_login_.innerHTML = loggedIn ? "logout" : "login";
+
+    function toggleLogin() { 
+        if(loggedIn)
+            logout();
+        else
+            login();
+
+        _btn_login_.innerHTML = loggedIn ? "logout" : "login";
+    }
+
 
     // login into firebase
     function login() {
@@ -31,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var userName = user.displayName;
                 console.log(user.email);
                 var userEmail = user.email;
+                loggedIn = true;
                 getPosts();
             })
             .catch(function (error) {
@@ -41,12 +56,24 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         const _btn_post_ = document.getElementById("_btn_post_");
-        _btn_post_.addEventListener( 'click', function() {
-            console.log("Post .....");
-            writeNewPost();
-        });
+       // _btn_post_.addEventListener( 'click', function() {
+       //     console.log("Post .....");
+       //     writeNewPost();
+       // });
 
     } /*login*/
+
+
+    function logout() {
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            loggedIn = false;
+        }).catch(function(error) {
+ // An error happened.
+            console.log(error);
+            loggedIn = true;
+        })
+    }
 
 
     function writeNewPost() {
@@ -198,6 +225,10 @@ function InitiateTeamRQ(team) {
         }
     } /* main */
 
+     function filter_scheduled(item) {
+        console.log(item)
+        return item.status  == "SCHEDULED"; 
+     }
 
 
     /* highlight the picked team line */
@@ -228,107 +259,24 @@ function InitiateTeamRQ(team) {
         const _summary_table_ = document.getElementById("summary-table");
         
         // for all data
+        let row = ``
         data.sort(by_status).forEach(function (item, index) {
-            let row = `<tr>
-            	<td><img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img></td>
-            	<td>${item.homeTeam.name} <span> vs </span></td>
-            	<td>${item.awayTeam.name} ${getStadion(item.awayTeam.id)}</td>
-                <td><img src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img></td>
-                <td><a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
-            </tr>`;
+            if( filter(item)) {
+                row = 
+                    `<tr>
+            	        <td><img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img></td>
+            	        <td>${item.homeTeam.name} <span> vs </span></td>
+            	        <td>${item.awayTeam.name} </td>
+                        <td><img src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img></td>
+                        <td><a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
+                    </tr>`;
+            }
+        })
             
-            _summary_table_.innerHTML += row;
-            console.log(row);
+        _summary_table_.innerHTML += row;
+        ;
+    } // end FillTable 
 
-        /*</tr>           
-            var tr = tbdy.insertRow(-1);
-            var td = tr.insertCell(-1);
-            tbdy.classList.add("gamesTable");
-            var liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
-            if (!Array.isArray(liOfInt))
-                liOfInt = [];
-
-            tr.classList.add(item.status) // handle the click on the game list
-            tr.addEventListener("click", function () {
-                let id = this.id.split('-')[1];
-                liOfInt.push(data[id])
-                console.log(liOfInt.length)
-                let jason = JSON.stringify(liOfInt);
-                // console.log( jason );
-                LS.setItem(_ListOfInt_, jason);
-                HL(this.id)
-            })
-            tr.setAttribute("id", "match-" + index);
-
-            // console.log(item);
-            // this implemnt the filter for a givem Teams or anyhing else
-            let line = item.getUTCDate + ' ' + item.homeTeam.name + ' ' + item.awayTeam.name + "!" + TheWinnerIs(item);
-            if (line.includes(filter)) {
-                let Days = 0;
-                if (item.status == "SCHEDULED") {
-                    const date1 = new Date();
-                    const date2 = new Date(item.season.startDate);
-                    const diffTime = Math.abs(date2.getTime() - date1.getTime());
-                    Days = Math.ceil(diffTime / (MS * SEC * HRS * 24));
-
-                    td = tr.insertCell(-1);
-                    td.classList.add(item.status)
-                    td.appendChild(document.createTextNode(' ' + item.season.startDate + "in " + Days + "days"));
-                }
-
-                td.classList.add("last-col");
-                // home team
-                td = tr.insertCell(-1);
-                td.appendChild(TeamLogo(item.awayTeam.id, item.awayTeam.name));
-                td = tr.insertCell(-1);
-                td.appendChild(document.createTextNode(item.awayTeam.name + ' vs ' + item.homeTeam.name));
-                td = tr.insertCell(-1)
-
-                //td.appendChild(document.createTextNode(' ' + item.awayTeam.name ));
-
-                if (item.status == "FINISHED") {
-                    if (item.score.winner != "DRAW") {
-                        let winner = TheWinnerIs(item);
-                        td = tr.insertCell(-1)
-                        td.appendChild(document.createTextNode(winner))
-                    }
-                }
-                if (item.satus == "SCHEDULED") {
-                    tr.classList.add("scheduled");
-                }
-                td.classList.add("last-col");
-                td = tr.insertCell(-1);
-
-                //td.appendChild( TeamLogo( item.awayTeam.id));
-                td.appendChild(TeamLogo(item.homeTeam.id, item.homeTeam.name))
-
-                tbdy.appendChild(tr);
-
-                //console.log( item.status)
-                if (lastState == null) {
-                    lastState = item.status;
-                    return // continue to next item
-                }
-
-                if (lastState !== item.status) {
-                    lastState = item.status;
-                    // IN case the state changes we add bootstrap pagination tag
-                    const li = document.createElement("li");
-                    li.classList.add("page-item");
-                    const a = document.createElement("a")
-                    a.setAttribute("name", lastState);
-                    console.log(item.status)
-
-                    li.appendChild(a);
-                    a.setAttribute("href", lastState);
-                    a.classList.add("page-link")
-                    a.innerHTML = lastState;
-
-                    td.appendChild(li);
-                }
-            } */
-        }) // end for each
-    } /*FillTable*/
     
     function NbrOf(array, string){
         let result = 0;
@@ -362,7 +310,7 @@ function InitiateTeamRQ(team) {
                     console.log(template);
                 })
                 const _int_list_ = document.getElementById("names");
-                _int_list_.inerHTML = template;
+                _int_list_.innerHTML = template;
                 position = [];
                 break;
             case "Settings":
@@ -373,7 +321,7 @@ function InitiateTeamRQ(team) {
             case "Sports Salad":
                 console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
                 /* _your_image_.setAttribute("src", gravatar("Michael.erdmann@snafu.de")) */
-                FillTable("summary-table", data.matches, searchText);
+                FillTable("summary-table", data.matches, filter_scheduled);
                 _search_text_.addEventListener('keypress', function (e) {
                     console.log(searchText)
                     searchText = _search_text_.value;
