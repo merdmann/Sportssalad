@@ -1,3 +1,4 @@
+
 'use strict'
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
@@ -160,12 +161,12 @@ function InitiateTeamRQ(team) {
 
                 _your_image_ /* .setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));*/
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches");
-                const _signIn_ = document.getElementById("btn-signIn");
+/*                const _signIn_ = document.getElementById("btn-signIn");
                 _signIn_.addEventListener('click', function () {
                     console.log("sign in .....");
                     login();
-                });
-                break;
+                }); */
+                break; 
                 
             case "Team":
                 console.log("Team ");
