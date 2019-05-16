@@ -1,0 +1,81 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 26/06/2018 11:10
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}
+
+.flaticon-001-salary-1:before { content: "\f100"; }
+.flaticon-002-selection-process:before { content: "\f101"; }
+.flaticon-003-interview-4:before { content: "\f102"; }
+.flaticon-004-women:before { content: "\f103"; }
+.flaticon-005-company:before { content: "\f104"; }
+.flaticon-006-man:before { content: "\f105"; }
+.flaticon-007-strategy:before { content: "\f106"; }
+.flaticon-008-position:before { content: "\f107"; }
+.flaticon-009-contact:before { content: "\f108"; }
+.flaticon-010-salary:before { content: "\f109"; }
+.flaticon-011-approved:before { content: "\f10a"; }
+.flaticon-012-skills:before { content: "\f10b"; }
+.flaticon-013-briefcase:before { content: "\f10c"; }
+.flaticon-014-recruitment-1:before { content: "\f10d"; }
+.flaticon-015-interview-3:before { content: "\f10e"; }
+.flaticon-016-job-3:before { content: "\f10f"; }
+.flaticon-017-clothes:before { content: "\f110"; }
+.flaticon-018-rating:before { content: "\f111"; }
+.flaticon-019-handshake:before { content: "\f112"; }
+.flaticon-020-video-conference-1:before { content: "\f113"; }
+.flaticon-021-resume-1:before { content: "\f114"; }
+.flaticon-022-thinking:before { content: "\f115"; }
+.flaticon-023-job-2:before { content: "\f116"; }
+.flaticon-024-interview-2:before { content: "\f117"; }
+.flaticon-025-notification:before { content: "\f118"; }
+.flaticon-026-career:before { content: "\f119"; }
+.flaticon-027-microphone:before { content: "\f11a"; }
+.flaticon-028-selection:before { content: "\f11b"; }
+.flaticon-029-hiring-1:before { content: "\f11c"; }
+.flaticon-030-hiring:before { content: "\f11d"; }
+.flaticon-031-job-1:before { content: "\f11e"; }
+.flaticon-032-hired:before { content: "\f11f"; }
+.flaticon-033-time:before { content: "\f120"; }
+.flaticon-034-appointment:before { content: "\f121"; }
+.flaticon-035-video-conference:before { content: "\f122"; }
+.flaticon-036-check-list:before { content: "\f123"; }
+.flaticon-037-curriculum:before { content: "\f124"; }
+.flaticon-038-certificate:before { content: "\f125"; }
+.flaticon-039-contract:before { content: "\f126"; }
+.flaticon-040-recruitment:before { content: "\f127"; }
+.flaticon-041-profiles:before { content: "\f128"; }
+.flaticon-042-conversation-1:before { content: "\f129"; }
+.flaticon-043-approval:before { content: "\f12a"; }
+.flaticon-044-job:before { content: "\f12b"; }
+.flaticon-045-resume:before { content: "\f12c"; }
+.flaticon-046-interview-1:before { content: "\f12d"; }
+.flaticon-047-interview:before { content: "\f12e"; }
+.flaticon-048-conversation:before { content: "\f12f"; }
+.flaticon-049-application:before { content: "\f130"; }
+.flaticon-050-personal-profile:before { content: "\f131"; }

@@ -8,6 +8,9 @@
 	background-color: red;
 }
 
+.img-login {
+  max-width: 64px
+}
 .solid {
 	width: 200px;
 	border: 2px solid;
