@@ -1,88 +1,55 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset=“utf-8”>
-    <title>Sports Salad</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <!-- Required meta tags -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-
-<body>
-  <body>
-    <!-- A grey horizontal navbar that becomes vertical on small screens -->
-    <article class="homepage">
-    <div class="container">
-        <nav class="navbar navbar-light bg-light">
-            <img id="your-image" class="yourImage">
-            <span class="greeting-text" id="span-greeting">Hi </span>
-            <form class="form-inline" action="javascript:void(0);">
-                <input id="search-text" class="form-control mr-sm-2 search-landscape" type="search" placeholder="Search" aria-label="Search">
-                <button id="btn-signIn" class="btn btn-outline-success my-2 my-sm-0">Sign In!</button>
-                <a onclick="openProfile()" class="btn  btn-lg active" role="button" aria-pressed="true">Profile</a>
-            </form>
-        </nav>
-      </div>
-    </article>
-
-    <article class="chat">
-      <div id="isLogin" class="mt-5">
-        <div id="chat">
-          <p>Simple chat example</p>
-          <input  id="post" type="text" />
-          <button id="btn-post">Send post</button>
-        </div>
-        <div id="posts" class="mt-5"></div>
-      </div>
-    </div>
+      <meta charset=“utf-8”>
+        <title>Sports Salad</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <!-- Required meta tags -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ </head>
     
-    <article class="homepage">
-    <!-- A grey horizontal navbar that becomes vertical on small screens -->
-    <div id="interest-list" class="interestlist d-flex p-3 ">
-    </div>
-      	<tbody id="summary-table" class="">
-        <!--all the clubs will be shown here -->
-      	</tbody>
-  	</table>
-    </div>
-    </div>
-  </article>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body style="font-family:Verdana;color:#aaaaaa;">
 
-  <article class="settings">
-  <div class="container">
-  <div class="input-group mb-3">
-  <div class="input-group-prepend">
-  <span class="input-group-text" id="basic-addon1"></span>
-  </div>
-        <table>
-            <tbod>
-                <tr><td>Your Name</td><td><input id="your-name"></td></tr>
-                <tr><td>Your Google Id</td><td><input id="google-Id"></td></tr>
-                <tr><td>Your City</td><td><input id="your-city"></td></tr>
-                <tr><td>Your Gravtar</td><td><input id="gravatar-id"></td></tr>
-            </tbod>
-        </table>
-	<a href="./index.html" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Home</a>
+<div style="background-color:#e5e5e5;padding:15px;text-align:center;">
+  <h1 id="span-greeting">Hi</h1>
 </div>
 
-<article class="pitch">
-	<img src="./img/pitch.jpg" height=350px class="pitch">
-    <div id="names" class="GoalKeeper0">GK</div>
+<article class="homepage">
+<div style="overflow:auto">
+  <div class="menu">
+    <a href="#" onclick="openProfile()">Profile</a>
+    <a id="btn_login" href="#" onclick="toggleLogin()"></a>
+    <a href="#" onclick="">Scheduled Games</a>
+    <a href="#">Stadion</a>
+  </div>
+
+  <div class="main homepage">
+    <h2>Lorum Ipsum</h2>
+    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+    <table>
+      <tbody id="summary-table" class="">
+      <!--all the clubs will be shown here -->
+      </tbody>
+  </table>
+  </div>
+
+
+  <div class="right">
+    <h2>About</h2>
+    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+    <div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+
+  </div>
+</div>
+
 </article>
 
-
-
-<script src="https://unpkg.com/moment" />
-<script>
-    moment().format();
-</script>
-
-<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 <script>
   // Initialize Firebase
   var config = {
@@ -95,7 +62,6 @@
   };
   firebase.initializeApp(config);
   </script>
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
@@ -104,5 +70,4 @@
    <script src="./js/logo.js"></script>
    <script src="./js/main.js"></script>
 </body>
-
 </html>
