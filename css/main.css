@@ -9,8 +9,8 @@
 }
 
 .img-login {
-  max-width: 64px
-}
+  max-height: 64px
+} 
 .solid {
 	width: 200px;
 	border: 2px solid;
@@ -20,6 +20,17 @@
     padding-bottom: 30px;
     padding: 30px
     text-align: center;
+}
+
+.topSection {
+  display: flex;
+  background-color:#e5e5e5;
+  text-align:center;
+  display: flex;
+  align-items: stretch; 
+  flex-direction: row-reverse;
+  align-content: flex-end ;
+  max-height: 64px
 }
 
 .HL {

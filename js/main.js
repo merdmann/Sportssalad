@@ -1,13 +1,13 @@
 'use strict'
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
-    main();
+    main("Sports Salad");
 });
 
     let searchText = "";
     const _your_image_ = document.getElementById("your-image");
     const _search_text_ = document.getElementById("search-text");
-    const _displayname_ = document.getElementById("span-displayname");
+    const _display_name_ = document.getElementById("span-display-name");
 
     const MS = 1000 /* 1000 ms == 1 seconds */
     const HR = 60 /* 60 min /  hr */
@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const LS = window.localStorage;
     const _ListOfInt_ = "listOfInt";
 
-    var currentFilter = filter_scheduled();
-    var database = firebase.database();
-    var loggedIn = false;
+    let currentFilter = filter_scheduled;
+    let database = firebase.database();
+    let loggedIn = false;
     const _btn_login_ = document.getElementById("btn_login")
-  
+
     _btn_login_.innerHTML = loggedIn ? "logout" : "login";
 
-    function toggleLogin() { 
+    function toggleLogin() {
         if(loggedIn)
             logout();
         else
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Login successful!");
                 console.log(user.displayName);
                 var userName = user.displayName;
-                _displayname_.innerHTML = userName;
+                _display_name_.innerHTML = userName;
                 console.log(user.email);
                 var userEmail = user.email;
                 loggedIn = true;
@@ -59,10 +59,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         const _btn_post_ = document.getElementById("_btn_post_");
-       // _btn_post_.addEventListener( 'click', function() {
-       //     console.log("Post .....");
-       //     writeNewPost();
-       // });
 
     } /*login*/
 
@@ -77,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
             loggedIn = true;
         })
     }
-
 
     function writeNewPost() {
         const LS = window.localStorage;
@@ -149,7 +144,7 @@ function hide(name) {
 }
 
     /*
-     * calculae the winner team 
+     * calculae the winner team
      */
 function TheWinnerIs(item) {
         if (item.score.winner != "DRAW") {
@@ -161,15 +156,14 @@ function TheWinnerIs(item) {
 
 function InitiateTeamRQ(team) {
     console.log("Team ");
-    fetchData("http://api.football-data.org/v2/teams/"+team);  
+    fetchData("http://api.football-data.org/v2/teams/"+team, "Team");
 }
 
     //
     // This is the main driver performing an initial request of data after the page has been
     // rendered.
     //
-    function main(data) {
-        const pageTitle = document.title;
+    function main(pageTitle) {
         const LS = window.localStorage;
         console.log("main :" + pageTitle);
         switch (pageTitle) {
@@ -185,38 +179,30 @@ function InitiateTeamRQ(team) {
                 hide(".pitch");
                 show(".homepage")
                 hide(".chat")
-                
-                var _span_greeting_ = document.getElementById("span-greeting");
-                _span_greeting_.innerHTML = "Hi " + LS.getItem("your-name");
 
-                _your_image_ /* .setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));*/
-                fetchData("https://api.football-data.org/v2/competitions/CL/matches");
-/*                const _signIn_ = document.getElementById("btn-signIn");
-                _signIn_.addEventListener('click', function () {
-                    console.log("sign in .....");
-                    login();
-                }); */
-                break; 
-                
+                /* _your_image_.setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));*/
+                fetchData("https://api.football-data.org/v2/competitions/CL/matches","Sports Salad");
+                break;
+
             case "Team":
                 console.log("Team ");
-                fetchData("http://api.football-data.org/v2/teams/7282");
+                fetchData("http://api.football-data.org/v2/teams/7282", "Team ");
                 break;
-                
+
             case "list of interest":
                 let liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
                 console.log(liOfInt);
                 var template = ``;
                 liOfInt.forEach(function (item, index) {
                     template += `<div id=${"card"+index} class="card solid">
-                     		 <strong>  ${moment(item.utcDate).fromNow()} ${getStadion(item.homeTeam.id)}</strong> 
+                     		 <strong>  ${moment(item.utcDate).fromNow()} ${getStadion(item.homeTeam.id)}</strong>
                              <div class="card-body">
                              <strong>(${item.homeTeam.name} vs ${item.awayTeam.name})</strong>
                              </div>
-                             ${item.utcDate} 
+                             ${item.utcDate}
                              <button type="button" id=${"bcard"+index} onclick="removecard(${index})"class="btn btn-primary">Remove</button>
                              <button type="button" class="btn btn-primary">Info</button>
-                             <input> 
+                             <input>
                              </div>`
                 })
                 const _int_list_ = document.getElementById("interest-list")
@@ -230,7 +216,7 @@ function InitiateTeamRQ(team) {
 
      function filter_scheduled(item) {
         console.log(item)
-        return item.status  == "SCHEDULED"; 
+        return item.status  == "SCHEDULED";
      }
 
 
@@ -260,12 +246,13 @@ function InitiateTeamRQ(team) {
 
         let lastState = null;
         const _summary_table_ = document.getElementById("summary-table");
-        
+
         // for all data
         let row = ``
         data.sort(by_status).forEach(function (item, index) {
-            if( filter(item)) {
-                row = 
+            console.log(item);
+            if( filter != null  && filter(item)) {
+                row =
                     `<tr>
             	        <td><img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img></td>
             	        <td>${item.homeTeam.name} <span> vs </span></td>
@@ -275,12 +262,12 @@ function InitiateTeamRQ(team) {
                     </tr>`;
             }
         })
-            
+
         _summary_table_.innerHTML += row;
         ;
-    } // end FillTable 
+    } // end FillTable
 
-    
+
     function NbrOf(array, string){
         let result = 0;
         array.forEach( function(item) {
@@ -291,11 +278,10 @@ function InitiateTeamRQ(team) {
     }
 
     // do the per page rendering of the received data
-    function ProcessAndRender(data) {
+    function ProcessAndRender(data, pageTitle) {
         console.log("ProcessAndRender");
-        let pageTitle = document.title;
         let position = [];
-        
+
         switch (pageTitle) {
             case "flash": // not used
                 break;
@@ -303,11 +289,11 @@ function InitiateTeamRQ(team) {
                 let template = "";
                 let position = [];
                 console.log(data);
-                data.squad.forEach( function( item ) {            
+                data.squad.forEach( function( item ) {
                     let nbr = NbrOf( position, item.position );
-                    
+
                     console.log(item.name + "/" + item.position + nbr);
-                    
+
                     position.push(item.position)
                     template += `<div class="${item.position+""+nbr}">${item.name}</div>`
                     console.log(template);
@@ -323,14 +309,7 @@ function InitiateTeamRQ(team) {
                 break;
             case "Sports Salad":
                 console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
-                /* _your_image_.setAttribute("src", gravatar("Michael.erdmann@snafu.de")) */
-                FillTable("summary-table", data.matches, filter_scheduled);
-                _search_text_.addEventListener('keypress', function (e) {
-                    console.log(searchText)
-                    searchText = _search_text_.value;
-                    document.getElementById("summary-table").innerHTML = "";
-                    FillTable("summary-table", data.matches, searchText)
-                });
+                FillTable("summary-table", data.matches, currentFilter );
                 break;
             case "list of interest":
                 break;
@@ -338,7 +317,7 @@ function InitiateTeamRQ(team) {
     } /* ProcessAndRender */
 
     // fetches data from the  server
-    function fetchData(url) {
+    function fetchData(url, page) {
         console.log("fetching" + url);
         fetch(url, {
                 headers: {
@@ -353,7 +332,7 @@ function InitiateTeamRQ(team) {
             })
             .then(function (myJson) {
                 document.body.style.cursor = 'auto'
-                ProcessAndRender(myJson);
+                ProcessAndRender(myJson, page);
             })
             .catch(err => console.log(err))
     }
@@ -412,8 +391,6 @@ function writeNewPost() {
         .update(updates);
 } /* writeNewPost */
 
-
-
 function getPosts() {
     const LS = window.localStorage;
     const postsDiv = document.querySelector("#posts");
@@ -440,3 +417,30 @@ function getPosts() {
             postsDiv.innerHTML = template;
         });
 }
+
+/*
+ *  Display the math data
+ */
+function display_scheduled() {
+
+    currentFilter = display_scheduled;
+    main("Sports Salad");
+}
+
+
+function search_filter(item) {
+    let line = "";
+    console.log(item);
+
+    line += item.status + item.awayTeam.name + item.homeTeam.name;
+
+    return line.includes( searchText.value);
+} // search_team
+
+function display_all() {
+    currentFilter = search_filter;
+
+    main("Sports Salad");
+    let _search_text_ = document.getElementById("search-text");
+    _search_text_.addEventListener("change", function f() { console.log(_search_Text_.value)} )
+} /* display_all */
