@@ -11,6 +11,13 @@
 .img-login {
   max-height: 64px
 } 
+
+.score {
+  font-size:  500%;
+  color: red;
+}
+
+
 .solid {
 	width: 200px;
 	border: 2px solid;

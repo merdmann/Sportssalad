@@ -254,12 +254,17 @@ function InitiateTeamRQ(team) {
         let row = ``
         data.sort(by_status).forEach(function (item, index) {
             console.log(item);
+            const homeTeamScore = item.score.fullTime.homeTeam;
+            const awayTeamScore =  item.score.fullTime.awayTeam;
+
             if( filter != null  && filter(item)) {
                 row =
                     `<tr>
-            	        <td><img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img></td>
-            	        <td>${item.homeTeam.name} <span> vs </span></td>
-            	        <td>${item.awayTeam.name} </td>
+                        <td>
+                        <img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img></td>
+                        <td><span>${item.utcDate} ${item.homeTeam.name}</span>
+                        <td><span class="score">${homeTeamScore} : ${awayTeamScore}</span>
+                        ${item.awayTeam.name} </td>
                         <td><img src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img></td>
                         <td><a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
                     </tr>`;
@@ -439,7 +444,6 @@ function display_scheduled() {
  */
 function search_filter(item) {
     let line = "";
-    console.log(item);
 
     line += item.status + item.awayTeam.name + item.homeTeam.name;
 
