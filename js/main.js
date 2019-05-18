@@ -182,6 +182,7 @@ function InitiateTeamRQ(team) {
 
                 /* _your_image_.setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));*/
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches","Sports Salad");
+                console.log("fetch returned")
                 break;
 
             case "Team":
@@ -236,6 +237,8 @@ function InitiateTeamRQ(team) {
             return;
         }
 
+        console.log("FillTable( nbr of data items: " + data.length);
+
         const by_status = function (a, b) {
             if (a.status < b.status)
                 return -1;
@@ -267,6 +270,10 @@ function InitiateTeamRQ(team) {
         ;
     } // end FillTable
 
+    function clearTable() {
+        const _summary_table_ = document.getElementById("summary-table");
+        _summary_table_.innerHTML="";
+    }
 
     function NbrOf(array, string){
         let result = 0;
@@ -419,7 +426,7 @@ function getPosts() {
 }
 
 /*
- *  Display the math data
+ *  Display the match data
  */
 function display_scheduled() {
 
@@ -427,20 +434,30 @@ function display_scheduled() {
     main("Sports Salad");
 }
 
-
+/*
+ * Saerchfilter is using any string
+ */
 function search_filter(item) {
     let line = "";
     console.log(item);
 
     line += item.status + item.awayTeam.name + item.homeTeam.name;
 
-    return line.includes( searchText.value);
+    return line.includes( searchText );
 } // search_team
 
-function display_all() {
-    currentFilter = search_filter;
 
-    main("Sports Salad");
+/* 
+ * this is the button handler for search
+ */
+function display_search() {
+    currentFilter = search_filter;
     let _search_text_ = document.getElementById("search-text");
-    _search_text_.addEventListener("change", function f() { console.log(_search_Text_.value)} )
+    searchText = _search_text_.value;
+    console.log(searchText)
+    clearTable();
+    main("Sports Salad");
+
 } /* display_all */
+
+
