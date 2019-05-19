@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
     main("Sports Salad");
 });
-
+    const date = moment();
     let searchText = "";
     const _your_image_ = document.getElementById("your-image");
     const _search_text_ = document.getElementById("search-text");
@@ -230,7 +230,6 @@ function InitiateTeamRQ(team) {
     /* this function biold the table of all teams */
     function FillTable(root, data, filter) {
         const LS = window.localStorage;
-        let shownLines = 0;
         let tbdy = document.getElementById(root);
         if (tbdy == null) {
             console.log(root + " not found.")
@@ -247,7 +246,7 @@ function InitiateTeamRQ(team) {
             return 0;
         }
 
-        let lastState = null;
+        clearTable();
         const _summary_table_ = document.getElementById("summary-table");
 
         // for all data
@@ -256,17 +255,23 @@ function InitiateTeamRQ(team) {
             console.log(item);
             const homeTeamScore = item.score.fullTime.homeTeam;
             const awayTeamScore =  item.score.fullTime.awayTeam;
+            const date = moment.utc(item.utcDate)
+
+            console.log(homeTeamScore);
+            console.log(awayTeamScore);
 
             if( filter != null  && filter(item)) {
                 row =
                     `<tr>
-                        <td>
-                        <img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img></td>
-                        <td><span>${item.utcDate} ${item.homeTeam.name}</span>
-                        <td><span class="score">${homeTeamScore} : ${awayTeamScore}</span>
-                        ${item.awayTeam.name} </td>
-                        <td><img src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img></td>
-                        <td><a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
+                        <td><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
+                        <td>${item.awayTeam.name}  
+                           <img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
+                        </td>
+                        <td>${item.homeTeam.name}  
+                           <img src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
+                        </td>Location
+                        <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
+                        </td>
                     </tr>`;
             }
         })
@@ -435,9 +440,12 @@ function getPosts() {
  */
 function display_scheduled() {
 
-    currentFilter = display_scheduled;
+    currentFilter = function(item) {
+        return item.status == "SCHEDULED";    
+    }
     main("Sports Salad");
 }
+
 
 /*
  * Saerchfilter is using any string
@@ -465,3 +473,10 @@ function display_search() {
 } /* display_all */
 
 
+
+function display_finished() {
+    console.log("display_finished")
+    currentFilter = function(item) { return item.status == 'FINISHED'}
+
+    main("Sports Salad");
+}

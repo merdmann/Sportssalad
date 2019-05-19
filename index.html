@@ -25,6 +25,8 @@
   </div>
 </div>
 
+
+
 <article class="homepage">
 <!-- Search form -->
 <div class="md-form mt-0">
@@ -36,7 +38,7 @@
     <a href="#" onclick="openProfile()">Profile</a>
     <a id="btn_login" href="#" onclick="login()">Signin</a>
     <a id="btm-scheduled-games" onclick="display_scheduled()">Scheduled Games</a>
-    <a id="btm-all-games" onclick="display_scheduled()">SHow all Games</a>
+    <a id="btm-all-games" onclick="display_finished()">Show all Results</a>
     <a id="btm-all-games" onclick="display_search()">Search</a>
 
     <a href="#">Stadion</a>
@@ -45,11 +47,13 @@
   <div class="main homepage">
     <h2>Lorum Ipsum</h2>
     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+    <div style="overflow-x:auto;">
     <table>
       <tbody id="summary-table" class="">
       <!--all the clubs will be shown here -->
       </tbody>
-  </table>
+    </table>
+     </div>
   </div>
 
 
@@ -62,6 +66,10 @@
 </div>
 
 </article>
+
+<script src="https://unpkg.com/moment" ></script>
+
+
 
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 <script>
