@@ -246,12 +246,23 @@ function InitiateTeamRQ(team) {
             return 0;
         }
 
+        const by_time = function(a,b) {
+            let  date_a = moment.utc(a.utcDate);
+            let  date_b = moment.utc(b.utcDate);
+
+            if (date_a.milliseconds < date_b.milliseconds)
+                return -1;
+            if (date_a.milliseconds > date_b.milliseconds)
+                return 1;
+            return 0;
+        }
+
         clearTable();
         const _summary_table_ = document.getElementById("summary-table");
 
         // for all data
         let row = ``
-        data.sort(by_status).forEach(function (item, index) {
+        data.sort(by_time).forEach(function (item, index) {
             console.log(item);
             const homeTeamScore = item.score.fullTime.homeTeam;
             const awayTeamScore =  item.score.fullTime.awayTeam;
@@ -262,9 +273,9 @@ function InitiateTeamRQ(team) {
 
             if( filter != null  && filter(item)) {
                 row =
-                    `<tr>
+                    `<tr id="{item.homeTeam.id}">
                         <td><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
-                        <td>${item.awayTeam.name}  
+                        <td >${item.awayTeam.name}  
                            <img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
                         </td>
                         <td>${item.homeTeam.name}  
@@ -273,11 +284,9 @@ function InitiateTeamRQ(team) {
                         <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
                         </td>
                     </tr>`;
-            }
-        })
-
-        _summary_table_.innerHTML += row;
-        ;
+                _summary_table_.innerHTML += row;         
+            } /* end if filter ... */
+        }) /* end forEach */;
     } // end FillTable
 
     function clearTable() {
