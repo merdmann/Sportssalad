@@ -4,16 +4,13 @@
  */
 
 
-.HL {
-	background-color: red;
-}
 
 .img-login {
   max-height: 64px
 } 
 
 .score {
-  font-size:  500%;
+  font-size:  400%;
   color: red;
 }
 

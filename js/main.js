@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     } /*login*/
 
-
     function logout() {
         firebase.auth().signOut().then(function() {
             // Sign-out successful.
@@ -127,7 +126,9 @@ function update(name) {
         }
 }
 
-/* turn display for all elements with the given name */
+/* 
+ * show elements with the givem class name.
+ */ 
 function show(name) {
     const cls = document.querySelectorAll(name);
     cls.forEach( function( elem ) { elem.style.display = "initial"; })
@@ -135,7 +136,9 @@ function show(name) {
     return cls;
 }
 
-/* turn display class on */
+/* 
+ * hide all elements using the given class name
+ */
 function hide(name) {
     const cls = document.querySelectorAll(name);
     cls.forEach( function( elem ) { elem.style.display = "none"; })
@@ -143,27 +146,11 @@ function hide(name) {
     return cls;
 }
 
-    /*
-     * calculae the winner team
-     */
-function TheWinnerIs(item) {
-        if (item.score.winner != "DRAW") {
-            let winner = item.score.winner == "AWAY_TEAM" ?
-                item.awayTeam.name : item.homeTeam.name;
-            return winner;
-        }
-}
-
-function InitiateTeamRQ(team) {
-    console.log("Team ");
-    fetchData("http://api.football-data.org/v2/teams/"+team, "Team");
-}
-
-    //
-    // This is the main driver performing an initial request of data after the page has been
-    // rendered.
-    //
-    function main(pageTitle) {
+/*
+ * This is the main driver performing an initial request of data after the page has been
+ * rendered. It will also make all elements visible
+ */
+    function main(pageTitle, args) {
         const LS = window.localStorage;
         console.log("main :" + pageTitle);
         switch (pageTitle) {
@@ -187,33 +174,97 @@ function InitiateTeamRQ(team) {
 
             case "Team":
                 console.log("Team ");
-                fetchData("http://api.football-data.org/v2/teams/7282", "Team ");
+                fetchData("http://api.football-data.org/v2/teams/" + args, "Team");
                 break;
 
-            case "list of interest":
-                let liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
-                console.log(liOfInt);
-                var template = ``;
-                liOfInt.forEach(function (item, index) {
-                    template += `<div id=${"card"+index} class="card solid">
-                     		 <strong>  ${moment(item.utcDate).fromNow()} ${getStadion(item.homeTeam.id)}</strong>
-                             <div class="card-body">
-                             <strong>(${item.homeTeam.name} vs ${item.awayTeam.name})</strong>
-                             </div>
-                             ${item.utcDate}
-                             <button type="button" id=${"bcard"+index} onclick="removecard(${index})"class="btn btn-primary">Remove</button>
-                             <button type="button" class="btn btn-primary">Info</button>
-                             <input>
-                             </div>`
-                })
-                const _int_list_ = document.getElementById("interest-list")
-                _int_list_.innerHTML = template;
-                break;
 
             default:
-                console.log("Default" + pageTitle);
+                console.log("Fallthrought in main for page" + pageTitle);
         }
-    } /* main */
+} /* main */
+
+/*
+ * this function is beeing called when the relevant data has been received from the 
+ * end point.
+ */
+function ProcessAndRender(data, pageTitle) {
+    console.log("ProcessAndRender");
+    let position = [];
+
+    switch (pageTitle) {
+        case "flash": // not used
+            break;
+        case "Team":
+            let template = "";
+            let position = [];
+            console.log(data);
+            data.squad.forEach( function( item ) {
+                let nbr = NbrOf( position, item.position );
+
+                console.log(item.name + "/" + item.position + nbr);
+
+                position.push(item.position)
+                template += `<div class="${item.position+""+nbr}">${item.name}</div>`
+                console.log(template);
+            })
+            const _int_list_ = document.getElementById("names");
+            _int_list_.innerHTML = template;
+            position = [];
+            break;
+        case "Settings":
+            update("google-id");
+            update("avatar-id");
+            update("your-city");
+            break;
+        case "Sports Salad":
+            console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
+            FillTable("summary-table", data.matches, currentFilter );
+            break;
+        case "list of interest":
+            break;
+    }
+} /* ProcessAndRender */
+
+/*
+ * fetching data from an endpoint and call ProcessAndRende when all
+ * data has been received.
+ */
+function fetchData(url, page) {
+    console.log("fetching" + url);
+    fetch(url, {
+            headers: {
+                "X-Auth-Token": "bddc8f1b00114b5683e99c5eea4268ac"
+            },
+            //mode: "cors"
+        })
+        .then(function (response) {
+            document.body.style.cursor = 'wait'
+            console.log(response)
+            return response.json()
+        })
+        .then(function (myJson) {
+            document.body.style.cursor = 'auto'
+            ProcessAndRender(myJson, page);
+        })
+        .catch(err => console.log(err))
+} /* fetchData */
+
+    /*
+     * calculae the winner team
+     */
+function TheWinnerIs(item) {
+        if (item.score.winner != "DRAW") {
+            let winner = item.score.winner == "AWAY_TEAM" ?
+                item.awayTeam.name : item.homeTeam.name;
+            return winner;
+        }
+}
+
+function InitiateTeamRQ(team) {
+    console.log("Team ");
+    fetchData("http://api.football-data.org/v2/teams/"+team, "Team");
+}
+
 
      function filter_scheduled(item) {
         console.log(item)
@@ -275,16 +326,28 @@ function InitiateTeamRQ(team) {
                 row =
                     `<tr id="{item.homeTeam.id}">
                         <td><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
+                        <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span>
+                        <span class="score">${homeTeamScore} : ${awayTeamScore}</span>
                         <td >${item.awayTeam.name}  
-                           <img src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
+                           <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
                         </td>
                         <td>${item.homeTeam.name}  
-                           <img src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
+                           <img id=${"team-"+item.homeTeam.id} src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
                         </td>Location
                         <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
                         </td>
                     </tr>`;
-                _summary_table_.innerHTML += row;         
+                _summary_table_.innerHTML += row;
+                const _team_away_=document.getElementById( "team-"+item.awayTeam.id )
+                const _team_home_=document.getElementById( "team-"+item.homeTeam.id  )
+                _team_away_.addEventListener("click", function () { 
+                    console.log("click"+ this.id); 
+                    main("Team", this.id.split("-")[1])
+                })
+                _team_home_.addEventListener("click", function () { 
+                    console.log("click"+ this.id), 
+                    main("Team", this.id.split("-")[1])})  
+
             } /* end if filter ... */
         }) /* end forEach */;
     } // end FillTable
@@ -301,66 +364,6 @@ function InitiateTeamRQ(team) {
                 ++result;
         })
         return result;
-    }
-
-    // do the per page rendering of the received data
-    function ProcessAndRender(data, pageTitle) {
-        console.log("ProcessAndRender");
-        let position = [];
-
-        switch (pageTitle) {
-            case "flash": // not used
-                break;
-            case "Team":
-                let template = "";
-                let position = [];
-                console.log(data);
-                data.squad.forEach( function( item ) {
-                    let nbr = NbrOf( position, item.position );
-
-                    console.log(item.name + "/" + item.position + nbr);
-
-                    position.push(item.position)
-                    template += `<div class="${item.position+""+nbr}">${item.name}</div>`
-                    console.log(template);
-                })
-                const _int_list_ = document.getElementById("names");
-                _int_list_.innerHTML = template;
-                position = [];
-                break;
-            case "Settings":
-                update("google-id");
-                update("avatar-id");
-                update("your-city");
-                break;
-            case "Sports Salad":
-                console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
-                FillTable("summary-table", data.matches, currentFilter );
-                break;
-            case "list of interest":
-                break;
-        }
-    } /* ProcessAndRender */
-
-    // fetches data from the  server
-    function fetchData(url, page) {
-        console.log("fetching" + url);
-        fetch(url, {
-                headers: {
-                    "X-Auth-Token": "bddc8f1b00114b5683e99c5eea4268ac"
-                },
-                //mode: "cors"
-            })
-            .then(function (response) {
-                document.body.style.cursor = 'wait'
-                console.log(response)
-                return response.json()
-            })
-            .then(function (myJson) {
-                document.body.style.cursor = 'auto'
-                ProcessAndRender(myJson, page);
-            })
-            .catch(err => console.log(err))
     }
 
     function openProfile() {
