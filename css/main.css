@@ -27,6 +27,15 @@
   text-align: center;
 }
 
+.middlePlate {
+  border: solid 1px;
+  width: 60px;
+  background-color:  black;
+  color: white;
+  font-size:  400%;
+  text-align: center;
+}
+
 .solid {
 	width: 200px;
 	border: 2px solid;
@@ -66,7 +75,7 @@
     padding-top: 40px;
     font-weight: bold;
 }
-    
+
 .Goalkeeper0 {
        transform: translate(260px,-180px);
        color: white;
@@ -87,8 +96,6 @@
     z-index: 999;
     position: absolute;
 }
-
-
 
 .Defender0 {
        transform: translate(120px, -260px);
@@ -176,45 +183,194 @@
   position: absolute;
 }
 
-.Midfielder1 {
-  transform: translate(0px, 100px);
+.Defender12 {
+  transform: translate(80px, -160px);
   color: red;
   z-index: 999;
   position: absolute;
 }
 
+.Defender13 {
+  transform: translate(80px, -160px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder0 {
+  transform: translate(60px, -50px);
+  color: white;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder1 {
+  transform: translate(180px, -160px);
+  color: white;
+  z-index: 999;
+  position: absolute;
+}
+
 .Midfielder2 {
-       transform: translate(160px, -16´80px);
+       transform: translate(160px, -280px);
        color: red;
        z-index: 999;
        position: absolute;
 }
 
-  .Midfielder3 {
+
+.Midfielder3 {
        transform: translate(160px, -180px);
        color: white;
        background-color: ;
        z-index: 999;
        position: absolute;
-    }
+}
 
-  .Attacker1 {
+.Midfielder4 {
+  transform: translate(160px, -280px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder5 {
+  transform: translate(160px, -280px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder6 {
+  transform: translate(160px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder7 {
+  transform: translate(160px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+.Midfielder8 {
+  transform: translate(160px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder8 {
+  transform: translate(160px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder9 {
+  transform: translate(160px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder10 {
+  transform: translate(160px, -250px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder11 {
+  transform: translate(160px, -240px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder12 {
+  transform: translate(180px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder13 {
+  transform: translate(180px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder14 {
+  transform: translate(180px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+
+.Attacker0 {
        transform: translate(140px, -220px);
        color: white;
        background-color: ;
        z-index: 999;
        position: absolute;
+}
 
-    }
-
- .Attacker2 {
+.Attacker1 {
        transform: translate(140px, -220px);
        color: white;
        background-color: ;
        z-index: 999;
        position: absolute;
-    }
+}
 
+
+.Attacker2 {
+  transform: translate(140px, -220px);
+  color: white;
+  background-color: ;
+  z-index: 999;
+  position: absolute;
+}
+
+
+.Attacker3 {
+  transform: translate(140px, -220px);
+  color: white;
+  background-color: ;
+  z-index: 999;
+  position: absolute;
+}
+
+
+.Attacker4 {
+  transform: translate(140px, -220px);
+  color: white;
+  background-color: ;
+  z-index: 999;
+  position: absolute;
+}
+
+
+.Attacker5 {
+  transform: translate(140px, -320px);
+  color: white;
+  background-color: ;
+  z-index: 999;
+  position: absolute;
+}
+
+
+.Attacker6 {
+  transform: translate(140px, -120px);
+  color: white;
+  background-color: ;
+  z-index: 999;
+  position: absolute;
+}
 
 
     * {

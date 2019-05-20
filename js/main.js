@@ -201,7 +201,7 @@ function ProcessAndRender(data, pageTitle) {
                 let nbr = NbrPosition( position, item.position );
 
                 position.push(item.position)
-                template += `<div class="${item.position+""+nbr}">${item.name} ${item.position}</div>`
+                template += `<div class="${item.position+""+nbr}">${item.name}</div>`
             })
             const _int_list_ = document.getElementById("names");
             _int_list_.innerHTML = template;
@@ -326,7 +326,7 @@ function InitiateTeamRQ(team) {
                         <td  id=${"game-"+item.homeTeam.id}"><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
                         <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span><br>
                         <div class="scores">
-                        <div class="scoreplate">${homeTeamScore}</div><div class="scoreplate">:</div><div class="scoreplate">${awayTeamScore}</div>
+                        <div class="scoreplate">${homeTeamScore}</div><div class="middlePlate">:</div><div class="scoreplate">${awayTeamScore}</div>
                         <td >${item.awayTeam.name} 
                         </div> 
                            <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
