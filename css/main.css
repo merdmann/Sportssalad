@@ -31,29 +31,16 @@
   background-color:#e5e5e5;
   text-align:center;
   display: flex;
-  align-items: stretch; 
   flex-direction: row-reverse;
   align-content: flex-end ;
   max-height: 64px
 }
 
-.HL {
-	background-color: red ;
-}
 
  .img-logo {
 	max-height: 100px;
  }
 
-
-.SCHEDULED {
-	color: red ;
-    background-color: "red";
-}
-
- .FINISHED {
-  color: grey;
-}
 
 .gamesTable {
     background-color: "blue";
@@ -67,45 +54,39 @@
     padding-top: 40px;
     font-weight: bold;
 }
-
-    .upright {
-      transform: rotate(90deg);
-    }
     
-    .GoalKeeper0 {
-       transform: translate(-80px,-200px);
+.Goalkeeper0 {
+       transform: translate(160px,-160px);
        color: red;
-       background-color: ;
        z-index: 999;
        position: absolute;
-    }
+}
 
-    .Defender0 {
+.Defender0 {
        transform: translate(160px, 320px);
-       color: red;
-       background-color: ;
+       color: blue;
        z-index: 999;
        position: absolute;
-    }
+}
 
-    .Defender1 {
+.Defender1 {
        transform: translate(160px, 320px);
-       color: red;
-       background-color: ;
+       color: white;
+/*       background-color: ; */
        z-index: 999;
        position: absolute;
-    }
+}
 
-    .Defender2 {
+.Defender2 {
        transform: translate(160px, -320px);
-       color: red;
+       color: white
        background-color: ;
        z-index: 999;
        position: absolute;  
     }
 
    .Midfielder1 {
-       transform: translate(160px, -140px);
+       transform: translate(0px, 0px);
        color: white;
        background-color: ;
        z-index: 999;

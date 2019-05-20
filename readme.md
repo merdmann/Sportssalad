@@ -32,3 +32,8 @@ Story 2 - AS a user of sportssalade i am able to communicate with other fan of t
    
    
 Tablet - design
+
+requirements for modeule 3: one page with schedule and some kind of filter, showing a map, one page with teams, one subpage which is showing some more detailed info about teams, live chat with login
+
+responsiveness on phone and iphone (meaning media query)
+and it has to be a single page application

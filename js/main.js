@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
     main("Sports Salad");
 });
-    const date = moment();
+    //const date = moment();
     let searchText = "";
     const _your_image_ = document.getElementById("your-image");
     const _search_text_ = document.getElementById("search-text");
@@ -278,7 +278,9 @@ function InitiateTeamRQ(team) {
         _row_.classList.add("HL");
     }
 
-    /* this function biold the table of all teams */
+    /* 
+     * this function builds the table of all teams.
+    */
     function FillTable(root, data, filter) {
         const LS = window.localStorage;
         let tbdy = document.getElementById(root);
@@ -338,6 +340,7 @@ function InitiateTeamRQ(team) {
                         </td>
                     </tr>`;
                 _summary_table_.innerHTML += row;
+
                 const _team_away_=document.getElementById( "team-"+item.awayTeam.id )
                 const _team_home_=document.getElementById( "team-"+item.homeTeam.id  )
                 _team_away_.addEventListener("click", function () { 
@@ -346,12 +349,16 @@ function InitiateTeamRQ(team) {
                 })
                 _team_home_.addEventListener("click", function () { 
                     console.log("click"+ this.id), 
-                    main("Team", this.id.split("-")[1])})  
+                    main("Team", this.id.split("-")[1])
+                })  
 
             } /* end if filter ... */
         }) /* end forEach */;
     } // end FillTable
 
+    /*
+     * remove  table of all teams.
+     */
     function clearTable() {
         const _summary_table_ = document.getElementById("summary-table");
         _summary_table_.innerHTML="";
@@ -370,23 +377,6 @@ function InitiateTeamRQ(team) {
         hide(".homepage")
         show(".setings")
     }
-/*
- * remove a card from the local storage (ListOfInt) and the screen
- */
-function removecard(id) {
-    const _ListOfInt_ = "listOfInt";
-
-    const LS = window.localStorage;
-    let liOfInt = JSON.parse(LS.getItem(_ListOfInt_));
-    liOfInt.splice(id, 1);
-    let jason = JSON.stringify(liOfInt);
-    LS.setItem(_ListOfInt_, jason);
-
-    let _card_ = document.getElementById("card" + id)
-    //_card_.style.display='none';
-    _card_.parentNode.removeChild(_card_)
-    console.log("removing card" + id);
-} /* removecard */
 
 
 function writeNewPost() {
@@ -475,7 +465,13 @@ function search_filter(item) {
  * this is the button handler for search
  */
 function display_search() {
-    currentFilter = search_filter;
+    currentFilter = function(item) {
+        let line = "";
+
+        line += item.status + item.awayTeam.name + item.homeTeam.name;
+    
+        return line.includes( searchText );
+    };
     let _search_text_ = document.getElementById("search-text");
     searchText = _search_text_.value;
     console.log(searchText)
@@ -484,11 +480,18 @@ function display_search() {
 
 } /* display_all */
 
-
-
+/*
+ * display all finished games.
+ */
 function display_finished() {
     console.log("display_finished")
     currentFilter = function(item) { return item.status == 'FINISHED'}
 
     main("Sports Salad");
+}
+
+
+function display_players() {
+    console.log("display_players")
+    show(".pitch");
 }
