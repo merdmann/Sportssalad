@@ -323,7 +323,7 @@ function InitiateTeamRQ(team) {
             if( filter != null  && filter(item)) {
                 row =
                     `<tr id="{item.homeTeam.id}">
-                        <td  id=${"game-"+item.homeTeam.id}"><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
+                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}"><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
                         <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span><br>
                         <div class="scores">
                         <div class="scoreplate">${homeTeamScore}</div><div class="middlePlate">:</div><div class="scoreplate">${awayTeamScore}</div>
@@ -365,12 +365,14 @@ function InitiateTeamRQ(team) {
     function NbrPosition(positions, string){
         let result = 0;
 
-        positions.forEach( function(item) {
-            if( item.includes(string) ) {
-                ++result;
-            }
-            console.log(string + "/" + result);
-        })
+        if(string!= null) {
+            positions.forEach( function(item) {
+                if( item.includes(string) ) {
+                    ++result;
+                    console.log(string + "/" + result);
+                }
+            })
+        }
         return result;
     }
 
@@ -497,4 +499,10 @@ function display_finished() {
 function display_players() {
     console.log("display_players")
     show(".pitch");
+}
+
+function select_team(id) {
+    console.log("select_team("+id+")");
+    show(".pitch");
+    main("Team", id);
 }

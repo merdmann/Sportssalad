@@ -373,6 +373,31 @@
 }
 
 
+.Attacker7 {
+  transform: translate(140px, -120px);
+  color: white;
+  background-color: ;
+  z-index: 999;
+  position: absolute;
+}
+
+
+.Attacker8 {
+  transform: translate(140px, -120px);
+  color: white;
+  background-color: ;
+  z-index: 999;
+  position: absolute;
+}
+
+.Attacker9 {
+  transform: translate(140px, -120px);
+  color: white;
+  background-color: ;
+  z-index: 999;
+  position: absolute;
+}
+
     * {
       box-sizing: border-box;
     }
