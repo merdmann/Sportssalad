@@ -355,7 +355,7 @@ function InitiateTeamRQ(team) {
     } // end FillTable
 
     /*
-     * remove  table of all teams.
+     * remove  table of all teams from screen
      */
     function clearTable() {
         const _summary_table_ = document.getElementById("summary-table");

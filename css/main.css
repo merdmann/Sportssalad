@@ -105,7 +105,7 @@
 }
 
 .Defender1 {
-       transform: translate(120px, -340px);
+       transform: translate(120px, -150px);
        color: white;
 /*       background-color: ; */
        z-index: 999;
@@ -121,14 +121,14 @@
 
 .Defender3 {
     transform: translate(160px, -50px);
-    color: white
+    color: white;
     z-index: 999;
     position: absolute;  
 }
 
 .Defender4 {
   transform: translate(160px, -220px);
-  color: white
+  color: white;
   z-index: 999;
   position: absolute; 
 } 
@@ -154,7 +154,6 @@
   position: absolute;
 }  
   
-
 .Defender8 {
   transform: translate(80px, -190px);
   color: red;
@@ -217,7 +216,6 @@
        z-index: 999;
        position: absolute;
 }
-
 
 .Midfielder3 {
        transform: translate(160px, -180px);
@@ -310,7 +308,6 @@
   position: absolute;
 }
 
-
 .Attacker0 {
        transform: translate(140px, -220px);
        color: white;
@@ -398,9 +395,11 @@
   position: absolute;
 }
 
-    * {
+
+* {
       box-sizing: border-box;
-    }
+  }
+  
     .menu {
       float:left;
       width:20%;
