@@ -362,11 +362,14 @@ function InitiateTeamRQ(team) {
         _summary_table_.innerHTML="";
     }
 
-    function NbrPosition(array, string){
+    function NbrPosition(positions, string){
         let result = 0;
-        array.forEach( function(item) {
-            if( item.indexOf(string))
+
+        positions.forEach( function(item) {
+            if( item.includes(string) ) {
                 ++result;
+            }
+            console.log(string + "/" + result);
         })
         return result;
     }
