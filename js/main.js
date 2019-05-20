@@ -188,7 +188,7 @@ function hide(name) {
  * end point.
  */
 function ProcessAndRender(data, pageTitle) {
-    console.log("ProcessAndRender");
+    console.log("ProcessAndRender " + pageTitle );
     let position = [];
 
     switch (pageTitle) {
@@ -197,15 +197,11 @@ function ProcessAndRender(data, pageTitle) {
         case "Team":
             let template = "";
             let position = [];
-            console.log(data);
             data.squad.forEach( function( item ) {
-                let nbr = NbrOf( position, item.position );
-
-                console.log(item.name + "/" + item.position + nbr);
+                let nbr = NbrPosition( position, item.position );
 
                 position.push(item.position)
-                template += `<div class="${item.position+""+nbr}">${item.name}</div>`
-                console.log(template);
+                template += `<div class="${item.position+""+nbr}">${item.name} ${item.position}</div>`
             })
             const _int_list_ = document.getElementById("names");
             _int_list_.innerHTML = template;
@@ -249,9 +245,9 @@ function fetchData(url, page) {
         .catch(err => console.log(err))
 } /* fetchData */
 
-    /*
-     * calculae the winner team
-     */
+/*
+ * calculae the winner team
+ */
 function TheWinnerIs(item) {
         if (item.score.winner != "DRAW") {
             let winner = item.score.winner == "AWAY_TEAM" ?
@@ -279,7 +275,7 @@ function InitiateTeamRQ(team) {
     }
 
     /* 
-     * this function builds the table of all teams.
+     * FillTable: this function builds the table of all teams.
     */
     function FillTable(root, data, filter) {
         const LS = window.localStorage;
@@ -327,13 +323,15 @@ function InitiateTeamRQ(team) {
             if( filter != null  && filter(item)) {
                 row =
                     `<tr id="{item.homeTeam.id}">
-                        <td><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
-                        <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span>
-                        <span class="score">${homeTeamScore} : ${awayTeamScore}</span>
-                        <td >${item.awayTeam.name}  
+                        <td  id=${"game-"+item.homeTeam.id}"><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
+                        <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span><br>
+                        <div class="scores">
+                        <div class="scoreplate">${homeTeamScore}</div><div class="scoreplate">:</div><div class="scoreplate">${awayTeamScore}</div>
+                        <td >${item.awayTeam.name} 
+                        </div> 
                            <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
                         </td>
-                        <td>${item.homeTeam.name}  
+                        <td>${item.homeTeam.name} 
                            <img id=${"team-"+item.homeTeam.id} src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
                         </td>Location
                         <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
@@ -364,7 +362,7 @@ function InitiateTeamRQ(team) {
         _summary_table_.innerHTML="";
     }
 
-    function NbrOf(array, string){
+    function NbrPosition(array, string){
         let result = 0;
         array.forEach( function(item) {
             if( item.indexOf(string))
@@ -490,7 +488,9 @@ function display_finished() {
     main("Sports Salad");
 }
 
-
+/*
+ * Display the player on the pitch 
+ */
 function display_players() {
     console.log("display_players")
     show(".pitch");

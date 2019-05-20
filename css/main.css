@@ -3,17 +3,29 @@
  * nearly portrait slim
  */
 
-
-
 .img-login {
   max-height: 64px
 } 
 
-.score {
-  font-size:  400%;
-  color: red;
+.scores  {
+  display:flex;
+  flex-direction: row
 }
 
+.score {
+  font-stretch: ultra-condensed;
+  font-size:  400%;
+  color: white;
+}
+
+.scoreplate {
+  border: solid 1px;
+  width: 80px;
+  background-color:  black;
+  color: white;
+  font-size:  400%;
+  text-align: center;
+}
 
 .solid {
 	width: 200px;
