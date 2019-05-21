@@ -27,7 +27,7 @@
 }
 
 .chat-view {
-  background-color: aqua;
+  background-color: blueaqua;
 }
 
 .scoreplate {
@@ -251,11 +251,10 @@
 }
 
 .Midfielder3 {
-       transform: translate(160px, -180px);
-       color: white;
-       background-color: ;
-       z-index: 999;
-       position: absolute;
+  transform: translate(160px, -180px);
+  color: white;
+  z-index: 999;
+  position: absolute;
 }
 
 .Midfielder4 {
@@ -483,7 +482,7 @@
     }
     
     
-.container {
+.chat-container {
   border: 2px solid #dedede;
   background-color: #f1f1f1;
   border-radius: 5px;
@@ -496,13 +495,13 @@
   background-color: #ddd;
 }
 
-.container::after {
+.chat-container::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.container img {
+.chat-container img {
   float: left;
   max-width: 60px;
   width: 100%;
@@ -510,7 +509,7 @@
   border-radius: 50%;
 }
 
-.container img.right {
+.chat-container img.right {
   float: right;
   margin-left: 20px;
   margin-right:0;

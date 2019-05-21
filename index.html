@@ -1,4 +1,4 @@
-_btm__<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
       <meta charset=“utf-8”>
@@ -32,7 +32,6 @@ _btm__<!DOCTYPE html>
     <div id=names></div>
 </article>
 
-
 <article class="homepage">
 <!-- Search form -->
 <div class="md-form mt-0">
@@ -45,41 +44,38 @@ _btm__<!DOCTYPE html>
     <a id="btn_login" href="#" onclick="login()">Signin</a>
     <a id="btm-scheduled-games" onclick="display_scheduled()">Scheduled Games</a>
     <a id="btm-all-games" onclick="display_finished()">Show all Results</a>
-    <a id="btm-all-games" onclick="display_search()">Search</a>
-    <a id="btm-all-games" onclick="display_players()">Team</a>
+    <a id= onclick="display_search()">Search</a>
+    <a onclick="display_players()">Team</a>
     <a id="btm-chat"  onclick="open_chat()">Chat</a>
-    <a href="#">Stadion</a>
-
   </div>
 
-  <div class="main homepage">
-    <h2>Champions League in Your pocket</h2>
-    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-    <div style="overflow-x:auto;">
+<div class="main homepage">
+<h2>Champions League in your Pocket</h2>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+<div style="overflow-x:auto;">
     <table>
       <tbody id="summary-table" class="">
       <!--all the clubs will be shown here -->
       </tbody>
     </table>
-     </div>
-  </div>
+</div>
 
-
+<article class="homepage">
   <div class="right">
     <h2>About</h2>
     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
     <div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-
   </div>
-</div>
 </article>
 
 <article class="chat">
+  <input id="chat-in" onchange="chat_input_received()" width="80%"></input>
 <div id="chat-out" class="chat-view">
-<input id="chat-in" onchange="chat_input_received()" class="chat-in"></input>
 </div>
+</article>
 
-<script src="https://unpkg.com/moment" ></script>
+<article class="homepage">
+<script src="https://unpkg.com/moment" >
    var a = moment().toString();
 </script>
 </article>

@@ -444,7 +444,7 @@ function getPosts() {
             let template = "";
             for (key in allPosts) {
                 template += `
-            <div class="container">
+            <div class="chat-container">
             <p>Author: ${allPosts[key].author}</p>
             <p>Message: ${allPosts[key].body}</p>
             <p>Date: ${moment(allPosts[key].date).fromNow()}</p>
