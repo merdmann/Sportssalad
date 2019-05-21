@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+_btm__<!DOCTYPE html>
 <html>
 <head>
       <meta charset=“utf-8”>
@@ -18,7 +18,8 @@
   
 <div class="topSection">
   <div>
-    <span id="span-display-name"></span>
+    <span id="span-display-name"></span><br>
+    <span id="messages" class="badge label label-danger">0</span>
   </div>
 
   <div>
@@ -46,8 +47,9 @@
     <a id="btm-all-games" onclick="display_finished()">Show all Results</a>
     <a id="btm-all-games" onclick="display_search()">Search</a>
     <a id="btm-all-games" onclick="display_players()">Team</a>
-
+    <a id="btm-chat"  onclick="open_chat()">Chat</a>
     <a href="#">Stadion</a>
+
   </div>
 
   <div class="main homepage">
@@ -70,14 +72,17 @@
 
   </div>
 </div>
-
 </article>
+
+<article class="chat">
+<div id="chat-out" class="chat-view">
+<input id="chat-in" onchange="chat_input_received()" class="chat-in"></input>
+</div>
 
 <script src="https://unpkg.com/moment" ></script>
    var a = moment().toString();
 </script>
-
-
+</article>
 
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 <script>

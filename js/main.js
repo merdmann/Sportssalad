@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const LS = window.localStorage;
     const _ListOfInt_ = "listOfInt";
 
+    let userName = null;    /* this is set by login */
     let currentFilter = filter_scheduled;
     let database = firebase.database();
     let loggedIn = false;
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var user = result.user;
                 console.log("Login successful!");
                 console.log(user.displayName);
-                var userName = user.displayName;
+                userName = user.displayName;
                 _display_name_.innerHTML = userName;
                 console.log(user.email);
                 var userEmail = user.email;
@@ -73,10 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     }
 
-    function writeNewPost() {
+    function writeNewPost(userInput) {
         const LS = window.localStorage;
         console.log("in write post");
-        const userInput = document.querySelector("post").value;
 
         // A post entry.
         var postData = {
@@ -384,12 +384,12 @@ function InitiateTeamRQ(team) {
 
 function writeNewPost() {
     console.log("in write post");
-    const userInput = document.getElementById("post").value;
+    const userInput = document.getElementById("chat-in").value;
     const LS = window.localStorage;
 
     // A post entry.
     var postData = {
-        author: LS.getItem('your-name'),
+        author: userName,
         body: userInput,
         date: new Date().toISOString()
     };
@@ -413,6 +413,15 @@ function writeNewPost() {
         .update(updates);
 } /* writeNewPost */
 
+function waiting(o) {
+    var count = 0;
+
+    for (var k in o) if (o.hasOwnProperty(k)) count++;
+
+    return count;
+}
+
+
 function getPosts() {
     const LS = window.localStorage;
     const postsDiv = document.querySelector("#posts");
@@ -421,22 +430,28 @@ function getPosts() {
         .database()
         .ref("posts")
         .on("value", function (data) {
+
+            let key = null
             console.log(data.val());
 
             const allPosts = data.val();
+            const _chat_out_ = document.getElementById("chat-out")
+            const _messages_ = document.getElementById("messages")
 
+            _messages_.innerHTML = waiting(allPosts);
+            console.log(allPosts);
+            
             let template = "";
             for (key in allPosts) {
-                console.log(allPosts[key].author);
                 template += `
-          <div>
+            <div>
             <p>Author: ${allPosts[key].author}</p>
             <p>Message: ${allPosts[key].body}</p>
-            <p>Date: ${allPosts[key].date}</p>
-          </div>
-        `;
+            <p>Date: ${moment(allPosts[key].date).fromNow()}</p>
+            </div>
+            `;
             }
-            postsDiv.innerHTML = template;
+            _chat_out_.innerHTML += template;
         });
 }
 
@@ -505,4 +520,32 @@ function select_team(id) {
     console.log("select_team("+id+")");
     show(".pitch");
     main("Team", id);
+}
+/* 
+ * open the  chat 
+ */
+function open_chat() {
+    clearTable();
+    show(".chat")
+    const _chat_in_ = document.getElementById("chat-in");
+    const _btm_chat_ = document.getElementById("btm-chat");
+    if( _btm_chat_.innerHTML=="Send" ) {
+        writeNewPost(_chat_in_.value);
+    }
+    
+}
+
+/* 
+ * if some chat contents been given we toggle the meaning of 
+ * the CHAT button to Send
+ */
+function chat_input_received( ) {
+    const _chat_in_ = document.getElementById("chat-in");
+
+    console.log(_chat_in_.value.length)
+    if( _chat_in_.value.length > 0) {
+        const _btm_chat_ = document.getElementById("btm-chat");
+        _btm_chat_.innerHTML = "Send";
+    }
+
 }

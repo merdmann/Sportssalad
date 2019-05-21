@@ -18,6 +18,18 @@
   color: white;
 }
 
+.disabled {
+   background-color: darkslategrey;
+}
+
+.chat-in {
+  background-color:  aqua;
+}
+
+.chat-view {
+  background-color: aqua;
+}
+
 .scoreplate {
   border: solid 1px;
   width: 80px;
@@ -76,6 +88,13 @@
     font-weight: bold;
 }
 
+.null0 {
+    transform: translate(260px,-190px);
+    color: white;
+    z-index: 999;
+    position: absolute;
+}
+
 .Goalkeeper0 {
        transform: translate(260px,-180px);
        color: white;
@@ -97,6 +116,20 @@
     position: absolute;
 }
 
+
+.Goalkeeper3 {
+  transform: translate(260px,-190px);
+  color: white;
+  z-index: 999;
+  position: absolute;
+}
+
+.Goalkeeper4 {
+  transform: translate(260px,-190px);
+  color: white;
+  z-index: 999;
+  position: absolute;
+}
 .Defender0 {
        transform: translate(120px, -260px);
        color: blue;
@@ -302,6 +335,13 @@
 }
 
 .Midfielder14 {
+  transform: translate(180px, -230px);
+  color: red;
+  z-index: 999;
+  position: absolute;
+}
+
+.Midfielder15 {
   transform: translate(180px, -230px);
   color: red;
   z-index: 999;
