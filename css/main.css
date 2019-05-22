@@ -9,7 +9,8 @@
 
 .scores  {
   display:flex;
-  flex-direction: row
+  flex-direction: row;
+  width: 80px;
 }
 
 .score {
@@ -63,6 +64,11 @@
   flex-direction: row-reverse;
   align-content: flex-end ;
   max-height: 64px
+}
+
+.td-center {
+    text-align: center; 
+    vertical-align: middle;
 }
 
 .td-logo {

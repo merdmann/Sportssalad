@@ -325,7 +325,7 @@ function monthName(mon) {
 
                 if( currentMonth != moment(date).get('month')) {
                     currentMonth = moment(date).get('month');
-                    dateLine = `${monthName(currentMonth)}`
+                    dateLine = `${moment(date).get ("year")} ${monthName(currentMonth)}`
                 } else
                     dateLine = "";
                     
@@ -333,30 +333,21 @@ function monthName(mon) {
 
                 row =
                     `<tr id="{item.homeTeam.id}">
-                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}"><h1>${dateLine}${moment().format( "DD HH:mm " )}</h1>
+                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}"><h1>${dateLine}${moment().format( " HH:mm " )}</h1>
                         <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span><br>
                         <div class="scores">
-                        <div class="scoreplate">${homeTeamScore}</div><div class="middlePlate">:</div><div class="scoreplate">${awayTeamScore}</div>
-                        <td >${item.awayTeam.name} 
+                        <div class="scoreplate" onclick="select_team(${item.homeTeam.id})">${homeTeamScore}</div><div class="middlePlate">:</div><div class="scoreplate" onclick="select_team(${item.awayTeam.id})">${awayTeamScore}</div>
+                        <td class="td-center">${item.homeTeam.name} 
                         </div> 
                            <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
                            <img id=${"team-"+item.homeTeam.id}" src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
-                        </td>Location
-                        <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
+                        </div>
+                        <td class="td-center">${item.awayTeam.name} 
+                        </td>${moment(date)}</br>
+                        Location <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
                         </td>
                     </tr>`;
                 _summary_table_.innerHTML += row;
-
-                const _team_away_=document.getElementById( "team-"+item.awayTeam.id )
-                const _team_home_=document.getElementById( "team-"+item.homeTeam.id )
-                _team_away_.addEventListener("click", function () { 
-                    console.log("click"+ this.id); 
-                    main("Team", this.id.split("-")[1])
-                })
-                _team_home_.addEventListener("click", function () { 
-                    console.log("click"+ this.id), 
-                    main("Team", this.id.split("-")[1])
-                })  
 
             } /* end if filter ... */
         }) /* end forEach */;
