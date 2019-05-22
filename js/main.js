@@ -490,12 +490,12 @@ function display_search() {
     
         return line.includes( searchText );
     };
+
     let _search_text_ = document.getElementById("search-text");
     searchText = _search_text_.value;
     console.log(searchText)
     clearTable();
     main("Sports Salad");
-
 } /* display_all */
 
 /*

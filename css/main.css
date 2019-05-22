@@ -394,7 +394,6 @@
 .Attacker5 {
   transform: translate(140px, -320px);
   color: white;
-  background-color: ;
   z-index: 999;
   position: absolute;
 }
@@ -403,7 +402,6 @@
 .Attacker6 {
   transform: translate(140px, -120px);
   color: white;
-  background-color: ;
   z-index: 999;
   position: absolute;
 }
@@ -412,7 +410,6 @@
 .Attacker7 {
   transform: translate(140px, -120px);
   color: white;
-  background-color: ;
   z-index: 999;
   position: absolute;
 }
@@ -421,7 +418,6 @@
 .Attacker8 {
   transform: translate(140px, -120px);
   color: white;
-  background-color: ;
   z-index: 999;
   position: absolute;
 }
@@ -429,7 +425,6 @@
 .Attacker9 {
   transform: translate(140px, -120px);
   color: white;
-  background-color: ;
   z-index: 999;
   position: absolute;
 }
@@ -438,50 +433,51 @@
 * {
       box-sizing: border-box;
   }
-  
-    .menu {
+
+.menu {
       float:left;
       width:20%;
       text-align:center;
     }
-    .menu a {
+.menu a {
       background-color:#e5e5e5;
       padding:8px;
       margin-top:7px;
       display:block;
       width:100%;
       color:black;
-    }
-    .main {
+}
+
+.main {
       float:left;
       width:60%;
       padding:0 20px;
-    }
-    .right {
+}
+
+.right {
       background-color:#e5e5e5;
-      float:left;
+      float: left;
       width:20%;
       padding:15px;
       margin-top:7px;
       text-align:center;
-    }
-    
-    @media only screen and (max-width:620px) {
+}
+
+@media only screen and (max-width:620px) {
       /* For mobile phones: */
       .menu, .main, .right {
         width:100%;
       }
-    }
+}
 
-    .container img {
+.container img {
       float: left;
       max-width: 60px;
       width: 100%;
       margin-right: 20px;
       border-radius: 50%;
-    }
-    
-    
+}
+
 .chat-container {
   border: 2px solid #dedede;
   background-color: #f1f1f1;
