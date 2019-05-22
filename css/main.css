@@ -23,11 +23,7 @@
 }
 
 .chat-in {
-  background-color:  aqua;
-}
-
-.chat-view {
-  background-color: blueaqua;
+  maxlength: 60;
 }
 
 .scoreplate {
@@ -470,6 +466,10 @@
       }
 }
 
+.search-in {
+}
+
+
 .container img {
       float: left;
       max-width: 60px;
@@ -484,6 +484,7 @@
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
+  width: 30%;
 }
 
 .darker {

@@ -532,7 +532,6 @@ function open_chat() {
     if( _btm_chat_.innerHTML=="Send" ) {
         writeNewPost(_chat_in_.value);
     }
-    
 }
 
 /* 

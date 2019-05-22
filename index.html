@@ -35,31 +35,30 @@
 <article class="homepage">
 <!-- Search form -->
 <div class="md-form mt-0">
-  <input id="search-text" class="form-control" type="text" placeholder="Search" aria-label="Search">
+  <input id="search-text" maxlength=40 class="form-control search-in" type="text" placeholder="Search" aria-label="Search">
 </div>
 </article>
 
-<div style="overflow:auto">
-  <div class="menu">
+<div class="menu">
     <a href="#" onclick="openProfile()">Profile</a>
     <a id="btn_login" href="#" onclick="login()">Signin</a>
     <a id="btm-scheduled-games" onclick="display_scheduled()">Scheduled Games</a>
     <a id="btm-all-games" onclick="display_finished()">Show all Results</a>
-    <a id= onclick="display_search()">Search</a>
+    <a onclick="display_search()">Search</a>
     <a onclick="display_players()">Team</a>
     <a id="btm-chat"  onclick="open_chat()">Chat</a>
-  </div>
 </div>
 
 <div class="main homepage">
 <h2>Champions League in your Pocket</h2>
 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-<div style="overflow-x:auto;">
+<div>
     <table>
       <tbody id="summary-table" class="">
       <!--all the clubs will be shown here -->
       </tbody>
     </table>
+</div>
 </div>
 
 <article class="homepage">
@@ -71,16 +70,14 @@
 </article>
 
 <article class="chat">
-  <input id="chat-in" onchange="chat_input_received()" width="80%"></input>
-<div id="chat-out" class="chat-view">
+<input id="chat-in" class="chat-in" onkeypress="chat_input_received()"></input>
+<div id="chat-out" class="main chat-view">
 </div>
 </article>
 
-<article class="homepage">
 <script src="https://unpkg.com/moment" >
-   var a = moment().toString();
+var a = moment().toString();
 </script>
-</article>
 
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 <script>
