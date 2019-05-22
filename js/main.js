@@ -261,18 +261,18 @@ function InitiateTeamRQ(team) {
     fetchData("http://api.football-data.org/v2/teams/"+team, "Team");
 }
 
-
-     function filter_scheduled(item) {
-        console.log(item)
+/*
+ * mark a scheduled game
+ */
+function filter_scheduled(item) {
         return item.status  == "SCHEDULED";
-     }
+}
 
+function monthName(mon) {
+    return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'][mon - 1];
+ }
+ 
 
-    /* highlight the picked team line */
-    function HL(id) {
-        const _row_ = document.getElementById(id);
-        _row_.classList.add("HL");
-    }
 
     /* 
      * FillTable: this function builds the table of all teams.
@@ -311,28 +311,36 @@ function InitiateTeamRQ(team) {
 
         // for all data
         let row = ``
+        let currentMonth  = null;
         data.sort(by_time).forEach(function (item, index) {
-            console.log(item);
+            //console.log(item);
+            let dateLine = null;
             const homeTeamScore = item.score.fullTime.homeTeam;
             const awayTeamScore =  item.score.fullTime.awayTeam;
             const date = moment.utc(item.utcDate)
 
-            console.log(homeTeamScore);
-            console.log(awayTeamScore);
-
             if( filter != null  && filter(item)) {
+                let dateLine = `${monthName(currentMonth)}`
+                console.log(moment(date).get('month'))
+
+                if( currentMonth != moment(date).get('month')) {
+                    currentMonth = moment(date).get('month');
+                    dateLine = `${monthName(currentMonth)}`
+                } else
+                    dateLine = "";
+                    
+                console.log(moment(date).get('month'))
+
                 row =
                     `<tr id="{item.homeTeam.id}">
-                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}"><h1>${moment(date).get('year')}/${moment(date).get('month')}/${moment(date).get('date')}/${moment(date).get("hour")}hrs</h1>
+                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}"><h1>${dateLine}${moment().format( "DD HH:mm " )}</h1>
                         <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span><br>
                         <div class="scores">
                         <div class="scoreplate">${homeTeamScore}</div><div class="middlePlate">:</div><div class="scoreplate">${awayTeamScore}</div>
                         <td >${item.awayTeam.name} 
                         </div> 
                            <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
-                        </td>
-                        <td>${item.homeTeam.name} 
-                           <img id=${"team-"+item.homeTeam.id} src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
+                           <img id=${"team-"+item.homeTeam.id}" src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
                         </td>Location
                         <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
                         </td>
@@ -340,7 +348,7 @@ function InitiateTeamRQ(team) {
                 _summary_table_.innerHTML += row;
 
                 const _team_away_=document.getElementById( "team-"+item.awayTeam.id )
-                const _team_home_=document.getElementById( "team-"+item.homeTeam.id  )
+                const _team_home_=document.getElementById( "team-"+item.homeTeam.id )
                 _team_away_.addEventListener("click", function () { 
                     console.log("click"+ this.id); 
                     main("Team", this.id.split("-")[1])
