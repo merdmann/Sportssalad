@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const LS = window.localStorage;
     const _ListOfInt_ = "listOfInt";
 
+    let CurrentTeam = null;
     let userName = null;    /* this is set by login */
     let currentFilter = filter_scheduled;
     let database = firebase.database();
@@ -207,11 +208,6 @@ function ProcessAndRender(data, pageTitle) {
             _int_list_.innerHTML = template;
             position = [];
             break;
-        case "Settings":
-            update("google-id");
-            update("avatar-id");
-            update("your-city");
-            break;
         case "Sports Salad":
             console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
             FillTable("summary-table", data.matches, currentFilter );
@@ -331,22 +327,26 @@ function monthName(mon) {
                     
                 console.log(moment(date).get('month'))
 
-                row =
-                    `<tr id="{item.homeTeam.id}">
-                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}"><h1>${dateLine}${moment(date).format( " HH:mm " )}</h1>
-                        <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span><br>
-                        <div class="scores">
-                        <div class="scoreplate" onclick="select_team(${item.homeTeam.id})">${homeTeamScore}</div><div class="middlePlate">:</div><div class="scoreplate" onclick="select_team(${item.awayTeam.id})">${awayTeamScore}</div>
-                        <td class="td-center">${item.homeTeam.name} 
-                        </div> 
-                           <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
-                           <img id=${"team-"+item.homeTeam.id}" src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
-                           <span class="td-center">${item.awayTeam.name}</span>
-                        </div>
-                        </td>${moment(date)}</br>
+                row = `<tr id="{item.homeTeam.id}">
+                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}">
+                           <h1>${dateLine}${moment(date).format( " HH:mm " )}</h1>
+                              <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span><br>
+                              <div class="scores">
+                                 <div class="scoreplate" onclick="select_team(${item.homeTeam.id})">${homeTeamScore==null? " - ":homeTeamScore}</div>
+                                 <div class="middlePlate">:</div>
+                                 <div class="scoreplate" onclick="select_team(${item.awayTeam.id})">${awayTeamScore==null?" - ": awayTeamScore}</div>
+                              </div>${moment(date)}</br>
                         Location <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
                         </td>
+                        <td class="td-center">${item.homeTeam.name}
+                             <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
+                             <img id=${"team-"+item.homeTeam.id}" src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
+                             <span class="td-center">${item.awayTeam.name}</span>
+                           </div>
+                        </td>
                     </tr>`;
+
+
                 _summary_table_.innerHTML += row;
 
             } /* end if filter ... */
@@ -465,7 +465,6 @@ function display_scheduled() {
     main("Sports Salad");
 }
 
-
 /*
  * Saerchfilter is using any string
  */
@@ -504,6 +503,7 @@ function display_finished() {
     console.log("display_finished")
     currentFilter = function(item) { return item.status == 'FINISHED'}
 
+    show(".all-results");
     main("Sports Salad");
 }
 
@@ -513,19 +513,22 @@ function display_finished() {
 function display_players() {
     console.log("display_players")
     show(".pitch");
+    main("Team", CurrentTeam )
 }
 
 function select_team(id) {
     console.log("select_team("+id+")");
+    CurrentTeam = id;
+    hide(".overview");
     show(".pitch");
-    main("Team", id);
+    main("Team", CurrentTeam);
 }
 /* 
  * open the  chat 
  */
 function open_chat() {
     clearTable();
-    show(".chat")
+    show(".chat");
     const _chat_in_ = document.getElementById("chat-in");
     const _btm_chat_ = document.getElementById("btm-chat");
     if( _btm_chat_.innerHTML=="Send" ) {

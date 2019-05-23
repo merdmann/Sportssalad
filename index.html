@@ -27,11 +27,6 @@
   </div>
 </div>
 
-<article class="pitch">
-    <img src="../img/pitch.jpg" >
-    <div id=names></div>
-</article>
-
 <article class="homepage">
 <!-- Search form -->
 <div class="md-form mt-0">
@@ -44,21 +39,21 @@
     <a href="#" id="btm-scheduled-games" onclick="display_scheduled()">Scheduled Games</a>
     <a href="#" id="btm-all-games" onclick="display_finished()">Show all Results</a>
     <a href="#" onclick="display_search()">Search</a>
-    <a href="#" onclick="display_players()">Team</a>
     <a href="#" id="btm-chat"  onclick="open_chat()">Chat</a>
 </div>
 
-<div class="main homepage">
+<div class=" homepage">
 <h2>Champions League in your Pocket</h2>
 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-<div>
-    <table>
-      <tbody id="summary-table" class="">
-      <!--all the clubs will be shown here -->
-      </tbody>
-    </table>
-</div>
-</div>
+<table id="summary-table" class="overview">
+</table>
+
+<article class="pitch">
+  <img src="../img/pitch.jpg" >
+  <div id=names>
+
+  </div>
+</article>
 
 <article class="homepage">
   <div class="right">
@@ -69,7 +64,12 @@
 </article>
 
 <article class="chat">
-<input id="chat-in" class="chat-in" onkeypress="chat_input_received()"></input>
+    <form>
+        <div class="form-group col-xs-8">
+          <input id="chat-in" type="text" class="form-control"  aria-describedby="text" onkeypress="chat_input_received()" placeholder="Enter Message" maxlength="20" size="20" width="20px">
+        </div>
+    </form>
+
 <div id="chat-out" class="main chat-view">
 </div>
 </article>

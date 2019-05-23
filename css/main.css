@@ -2,6 +2,9 @@
 /*
  * nearly portrait slim
  */
+ .pitch {
+   display: none;
+ }
 
 .img-login {
   max-height: 64px
@@ -107,7 +110,7 @@
 }
 
 .Goalkeeper0 {
-       transform: translate(247px,-121px);
+       transform: translate(422px,-121px);
        color: white;
        z-index: 999;
        position: absolute;
@@ -158,14 +161,14 @@
 }
 
 .Defender2 {
-       transform: translate(330px, -100px);
+       transform: translate(509px, -172px);
        color: white;
        z-index: 999;
        position: absolute;  
 }
 
 .Defender3 {
-    transform: translate(293px, -147px);
+    transform: translate(348px, -180px);
     color: white;
     z-index: 999;
     position: absolute;  
@@ -242,28 +245,28 @@
 }
 
 .Midfielder0 {
-  transform: translate(187px, -320px);
+  transform: translate(428px, -341px);
   color: white;
   z-index: 999;
   position: absolute;
 }
 
 .Midfielder1 {
-  transform: translate(210px, -148px);
+  transform: translate(288px, -148px);
   color: white;
   z-index: 999;
   position: absolute;
 }
 
 .Midfielder2 {
-  transform: translate(160px, -280px);
+  transform: translate(497px, -249px);
   color: white;
   z-index: 999;
   position: absolute;
 }
 
 .Midfielder3 {
-  transform: translate(160px, -180px);
+  transform: translate(391px, -217px);
   color: white;
   z-index: 999;
   position: absolute;
@@ -277,7 +280,7 @@
 }
 
 .Midfielder5 {
-  transform: translate(293px, -304px);
+  transform: translate(423px, -304px);
   color: white;
   z-index: 999;
   position: absolute;
@@ -291,13 +294,13 @@
 }
 
 .Midfielder7 {
-  transform: translate(160px, -230px);
-  color: red;
+  transform: translate(504px, -196px);
+  color: white;
   z-index: 999;
   position: absolute;
 }
 .Midfielder8 {
-  transform: translate(47px, -318px);
+  transform: translate(520px, -223px);
   color: white;
   z-index: 999;
   position: absolute;
@@ -305,7 +308,7 @@
 
 .Midfielder8 {
   transform: translate(160px, -230px);
-  color: red;
+  color: white;
   z-index: 999;
   position: absolute;
 }
@@ -318,8 +321,8 @@
 }
 
 .Midfielder10 {
-  transform: translate(160px, -250px);
-  color: red;
+  transform: translate(525px, -304px);
+  color: white;
   z-index: 999;
   position: absolute;
 }
@@ -360,9 +363,8 @@
 }
 
 .Attacker0 {
-       transform: translate(182px, -305px);
+       transform: translate(521px, -276px);
        color: white;
-       background-color: ;
        z-index: 999;
        position: absolute;
 }
@@ -376,7 +378,7 @@
 
 
 .Attacker2 {
-  transform: translate(358px, -322px);
+  transform: translate(326px, -301px);
   color: white;
   background-color: ;
   z-index: 999;
@@ -467,7 +469,7 @@
 
 .right {
       background-color:#e5e5e5;
-      float: left;
+      float: right;
       width:20%;
       padding:15px;
       margin-top:7px;
