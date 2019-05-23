@@ -333,7 +333,7 @@ function monthName(mon) {
 
                 row =
                     `<tr id="{item.homeTeam.id}">
-                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}"><h1>${dateLine}${moment().format( " HH:mm " )}</h1>
+                        <td onclick="select_team(${item.homeTeam.id})" id=${"game-"+item.homeTeam.id}"><h1>${dateLine}${moment(date).format( " HH:mm " )}</h1>
                         <span>${item.homeTeam.name} vs ${item.awayTeam.name}</span><br>
                         <div class="scores">
                         <div class="scoreplate" onclick="select_team(${item.homeTeam.id})">${homeTeamScore}</div><div class="middlePlate">:</div><div class="scoreplate" onclick="select_team(${item.awayTeam.id})">${awayTeamScore}</div>
@@ -341,8 +341,8 @@ function monthName(mon) {
                         </div> 
                            <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
                            <img id=${"team-"+item.homeTeam.id}" src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
+                           <span class="td-center">${item.awayTeam.name}</span>
                         </div>
-                        <td class="td-center">${item.awayTeam.name} 
                         </td>${moment(date)}</br>
                         Location <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
                         </td>
