@@ -321,7 +321,7 @@ function monthName(mon) {
 
                 if( currentMonth != moment(date).get('month')) {
                     currentMonth = moment(date).get('month');
-                    dateLine = `${moment(date).get ("year")} ${monthName(currentMonth)}`
+                    dateLine = `${moment(date).get ("year")} ${monthName(currentMonth+1)}`
                 } else
                     dateLine = "";
                     
@@ -339,8 +339,8 @@ function monthName(mon) {
                         Location <a href="https://www.google.com/maps/search/?api=1&query=${getStadion(item.awayTeam.id)}">${getStadion(item.awayTeam.id)}</a>
                         </td>
                         <td class="td-center">${item.homeTeam.name}
-                             <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo"></img>
-                             <img id=${"team-"+item.homeTeam.id}" src="${getLogoURL(item.awayTeam.id)}" class="img-logo"></img>
+                             <img id="${"team-"+item.awayTeam.id}" src="${getLogoURL(item.homeTeam.id)}" class="img-logo" alt="not available"></img>
+                             <img id=${"team-"+item.homeTeam.id}" src="${getLogoURL(item.awayTeam.id)}" class="img-logo" alt="not aviailable"></img>
                              <span class="td-center">${item.awayTeam.name}</span>
                            </div>
                         </td>
@@ -528,6 +528,7 @@ function select_team(id) {
  */
 function open_chat() {
     clearTable();
+    hide(".pitch")
     show(".chat");
     const _chat_in_ = document.getElementById("chat-in");
     const _btm_chat_ = document.getElementById("btm-chat");
