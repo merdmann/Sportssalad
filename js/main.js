@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const MS = 1000 /* 1000 ms == 1 seconds */
     const HR = 60 /* 60 min /  hr */
     const SEC = 60 /* 60 sec / min */
-    const LS = window.localStorage;
     const _ListOfInt_ = "listOfInt";
 
     let CurrentTeam = null;
@@ -59,12 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 var errorMessage = error.message;
                 console.log(errorCode, errorMessage);
             });
+} /*login*/
 
-        const _btn_post_ = document.getElementById("_btn_post_");
-
-    } /*login*/
-
-    function logout() {
+function logout() {
         firebase.auth().signOut().then(function() {
             // Sign-out successful.
             loggedIn = false;
@@ -73,21 +69,15 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(error);
             loggedIn = true;
         })
-    }
+} /* logout */
 
-    function writeNewPost(userInput) {
-        const LS = window.localStorage;
-        console.log("in write post");
-
+function writeNewPost(userInput) {
         // A post entry.
         var postData = {
-            author: LS.getItem("your-name"),
+            author: userName,
             body: userInput,
             date: new Date().toISOString()
         };
-
-        console.log(postData);
-
         // Get a key for a new Post.
         var newPostKey = firebase
             .database()
@@ -103,33 +93,12 @@ document.addEventListener('DOMContentLoaded', function () {
             .database()
             .ref()
             .update(updates);
+            
+} /* writeNewPost */
 
-        // getPosts();
-    } /* writeNewPost */
-
-
-    //
-    // This function is expectd to update the settings page and to place th
-    // input fields.
-    //
-function update(name) {
-        const LS = window.localStorage;
-        console.log("update(" + name + ")");
-        let _elem_ = document.getElementById(name);
-        if (_elem_ !== null) {
-            _elem_.value = LS.getItem(name);
-            _elem_.addEventListener('change', function () {
-                LS.setItem(name, _elem_.value)
-            });
-        } else {
-            console.log("value=" + _elem_.value)
-            LS.setItem(name, _elem_.value);
-        }
-}
-
-/* 
+/*
  * show elements with the givem class name.
- */ 
+ */
 function show(name) {
     const cls = document.querySelectorAll(name);
     cls.forEach( function( elem ) { elem.style.display = "initial"; })
@@ -137,7 +106,7 @@ function show(name) {
     return cls;
 }
 
-/* 
+/*
  * hide all elements using the given class name
  */
 function hide(name) {
@@ -149,32 +118,24 @@ function hide(name) {
 
 /*
  * This is the main driver performing an initial request of data after the page has been
- * rendered. It will also make all elements visible
+ * rendered. It will also make all elements visible-lets call the pageTitle the title of 
+ * a logical page.
  */
     function main(pageTitle, args) {
         const LS = window.localStorage;
         console.log("main :" + pageTitle);
         switch (pageTitle) {
-            case "Settings":
-                update("google-Id");
-                update("your-name");
-                update("gravatar-id");
-                update("your-city");
-                break;
+            case "Sports Salad":    // the main page. provide greeting
+            	hide(".settings");  // dont show the settings
+                hide(".pitch");     // hide the tactical view
+                show(".homepage")   // show the homrpage info
+                hide(".chat")       // hide the chat results
 
-            case "Sports Salad": // the main page. provide greeting
-            	hide(".settings");
-                hide(".pitch");
-                show(".homepage")
-                hide(".chat")
-
-                /* _your_image_.setAttribute("src", gravatar(LS.getItem("gravatar-id"), 240));*/
                 fetchData("https://api.football-data.org/v2/competitions/CL/matches","Sports Salad");
                 console.log("fetch returned")
                 break;
 
             case "Team":
-                console.log("Team ");
                 fetchData("http://api.football-data.org/v2/teams/" + args, "Team");
                 break;
 
@@ -193,26 +154,22 @@ function ProcessAndRender(data, pageTitle) {
     let position = [];
 
     switch (pageTitle) {
-        case "flash": // not used
-            break;
         case "Team":
             let template = "";
             let position = [];
             data.squad.forEach( function( item ) {
-                let nbr = NbrPosition( position, item.position );
+                let nbr = NbrPosition( position, item.position );  // elaborate the position number, e.g. defender4
 
                 position.push(item.position)
                 template += `<div class="${item.position+""+nbr}">${item.name}</div>`
             })
-            const _int_list_ = document.getElementById("names");
-            _int_list_.innerHTML = template;
+            const _names_list_ = document.getElementById("names");
+            _names_list_.innerHTML = template;
             position = [];
             break;
         case "Sports Salad":
             console.log("ProcessAndRender nbr of data items: " + data.matches.length + " for " + pageTitle + ")");
             FillTable("summary-table", data.matches, currentFilter );
-            break;
-        case "list of interest":
             break;
     }
 } /* ProcessAndRender */
@@ -270,11 +227,10 @@ function monthName(mon) {
  
 
 
-    /* 
-     * FillTable: this function builds the table of all teams.
-    */
+/* 
+ * FillTable: this function builds the table of all teams.
+ */
     function FillTable(root, data, filter) {
-        const LS = window.localStorage;
         let tbdy = document.getElementById(root);
         if (tbdy == null) {
             console.log(root + " not found.")
@@ -302,7 +258,7 @@ function monthName(mon) {
             return 0;
         }
 
-        clearTable();
+        removeTable();
         const _summary_table_ = document.getElementById("summary-table");
 
         // for all data
@@ -346,9 +302,7 @@ function monthName(mon) {
                         </td>
                     </tr>`;
 
-
                 _summary_table_.innerHTML += row;
-
             } /* end if filter ... */
         }) /* end forEach */;
     } // end FillTable
@@ -356,11 +310,14 @@ function monthName(mon) {
     /*
      * remove  table of all teams from screen
      */
-    function clearTable() {
+    function removeTable() {
         const _summary_table_ = document.getElementById("summary-table");
         _summary_table_.innerHTML="";
     }
 
+    /*
+    * This function handles the numbering of identical rows, like "defender4".
+    */
     function NbrPosition(positions, string){
         let result = 0;
 
@@ -373,11 +330,6 @@ function monthName(mon) {
             })
         }
         return result;
-    }
-
-    function openProfile() {
-        hide(".homepage")
-        show(".setings")
     }
 
 
@@ -431,7 +383,7 @@ function getPosts() {
         .on("value", function (data) {
 
             let key = null
-            console.log(data.val());
+            console.log("data.val():" + data.val());
 
             const allPosts = data.val();
             const _chat_out_ = document.getElementById("chat-out")
@@ -439,8 +391,9 @@ function getPosts() {
 
             _messages_.innerHTML = waiting(allPosts);
             console.log(allPosts);
-            
+
             let template = "";
+            let messages = [];
             for (key in allPosts) {
                 template += `
             <div class="chat-container">
@@ -449,7 +402,10 @@ function getPosts() {
             <p>Date: ${moment(allPosts[key].date).fromNow()}</p>
             </div>
             `;
+            messages.push({'author': allPosts[key].author, 'date': allPosts[key].data, 'body': allPosts[key].body});
+
             }
+            messages.forEach( function(x) { console.log( x )})
             _chat_out_.innerHTML += template;
         });
 }
@@ -475,7 +431,6 @@ function search_filter(item) {
 
     return line.includes( searchText );
 } // search_team
-
 
 /* 
  * this is the button handler for search
@@ -527,7 +482,7 @@ function select_team(id) {
  * open the  chat 
  */
 function open_chat() {
-    clearTable();
+    removeTable();
     hide(".pitch")
     show(".chat");
     const _chat_in_ = document.getElementById("chat-in");

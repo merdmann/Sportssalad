@@ -485,7 +485,6 @@ function googleFormat(f) {
 	return result;
 }
 
-
 function getStadion(key) {
     //console.log(key);
 	if( Teams.has(key) && Teams.get(key).venue != null ) {
