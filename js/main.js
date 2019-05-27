@@ -1,25 +1,30 @@
+/*
+ * There are two different ways of viewing single page applications either by 
+ * logical pages providing some functionality of the application. Each of such
+ * functional pages is implemented by fragments in the index.html. If contains 
+ * various article sections supporting a single functional page.
+ * 
+ */
 'use strict'
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM Tree loaded')
     main("Sports Salad");
 });
-    //const date = moment();
     let searchText = "";
-    const _your_image_ = document.getElementById("your-image");
     const _search_text_ = document.getElementById("search-text");
     const _display_name_ = document.getElementById("span-display-name");
+    const _btn_login_ = document.getElementById("btn-login");
 
-    const MS = 1000 /* 1000 ms == 1 seconds */
-    const HR = 60 /* 60 min /  hr */
-    const SEC = 60 /* 60 sec / min */
-    const _ListOfInt_ = "listOfInt";
+
+    const MS = 1000; /* 1000 ms == 1 seconds */
+    const HR = 60; /* 60 min /  hr */
+    const SEC = 60; /* 60 sec / min */
 
     let CurrentTeam = null;
     let userName = null;    /* this is set by login */
     let currentFilter = filter_scheduled;
     let database = firebase.database();
     let loggedIn = false;
-    const _btn_login_ = document.getElementById("btn_login")
 
     _btn_login_.innerHTML = loggedIn ? "logout" : "login";
 
@@ -31,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         _btn_login_.innerHTML = loggedIn ? "logout" : "login";
     }
-
 
     // login into firebase
     function login() {
@@ -139,7 +143,6 @@ function hide(name) {
                 fetchData("http://api.football-data.org/v2/teams/" + args, "Team");
                 break;
 
-
             default:
                 console.log("Fallthrought in main for page" + pageTitle);
         }
@@ -199,22 +202,6 @@ function fetchData(url, page) {
 } /* fetchData */
 
 /*
- * calculae the winner team
- */
-function TheWinnerIs(item) {
-        if (item.score.winner != "DRAW") {
-            let winner = item.score.winner == "AWAY_TEAM" ?
-                item.awayTeam.name : item.homeTeam.name;
-            return winner;
-        }
-}
-
-function InitiateTeamRQ(team) {
-    console.log("Team ");
-    fetchData("http://api.football-data.org/v2/teams/"+team, "Team");
-}
-
-/*
  * mark a scheduled game
  */
 function filter_scheduled(item) {
@@ -224,13 +211,11 @@ function filter_scheduled(item) {
 function monthName(mon) {
     return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'][mon - 1];
  }
- 
-
 
 /* 
  * FillTable: this function builds the table of all teams.
  */
-    function FillTable(root, data, filter) {
+function FillTable(root, data, filter) {
         let tbdy = document.getElementById(root);
         if (tbdy == null) {
             console.log(root + " not found.")
@@ -280,7 +265,7 @@ function monthName(mon) {
                     dateLine = `${moment(date).get ("year")} ${monthName(currentMonth+1)}`
                 } else
                     dateLine = "";
-                    
+
                 console.log(moment(date).get('month'))
 
                 row = `<tr id="{item.homeTeam.id}">
@@ -305,19 +290,19 @@ function monthName(mon) {
                 _summary_table_.innerHTML += row;
             } /* end if filter ... */
         }) /* end forEach */;
-    } // end FillTable
+} // end FillTable
 
     /*
      * remove  table of all teams from screen
      */
-    function removeTable() {
+function removeTable() {
         const _summary_table_ = document.getElementById("summary-table");
         _summary_table_.innerHTML="";
-    }
+}
 
-    /*
-    * This function handles the numbering of identical rows, like "defender4".
-    */
+/*
+ * This function handles the numbering of identical rows, like "defender4".
+ */
     function NbrPosition(positions, string){
         let result = 0;
 
@@ -402,9 +387,9 @@ function getPosts() {
             <p>Date: ${moment(allPosts[key].date).fromNow()}</p>
             </div>
             `;
-            messages.push({'author': allPosts[key].author, 'date': allPosts[key].data, 'body': allPosts[key].body});
-
             }
+            messages.push({'author': allPosts[key].author, 'date': allPosts[key].data, 'body': allPosts[key].body});
+                console.log(messages);
             messages.forEach( function(x) { console.log( x )})
             _chat_out_.innerHTML += template;
         });
